@@ -2,7 +2,7 @@
 
 void	init_vars(t_vars *vars)
 {
-	vars->player = 0;
+	vars->p = 0;
 	vars->map_width = 0;
 	vars->map_height = 1;
 	vars->actual_col_count = 0;
@@ -22,7 +22,6 @@ int main(int argc, char **argv)
 {
 	t_vars vars;
 	t_errors errors;
-	t_player *player;
 
 	if (argc != 2)
 		return (-1);
@@ -42,7 +41,7 @@ int main(int argc, char **argv)
 	if (errors.error1 == 1 || errors.error2 == 1
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
-	player = parse_player(&vars);
-	init_window(&vars, player);
+	parse_player(&vars);
+	init_window(&vars);
 	return (0);
 }

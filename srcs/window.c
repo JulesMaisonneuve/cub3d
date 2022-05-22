@@ -1,6 +1,6 @@
 #include "../cubed.h"
 
-int	init_window(t_vars *vars, t_player *player)
+int	init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
@@ -8,8 +8,9 @@ int	init_window(t_vars *vars, t_player *player)
 	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!vars->win)
 		return (free_map(vars));
+	ray_casting(vars);
+	mlx_key_hook(vars->win, key_hook, vars);
 	mlx_hook(vars->win, 33, 1L << 17, close_win, vars);
-	ray_casting(player, vars);
 	mlx_loop(vars->mlx);
 	return (0);
 }

@@ -9,7 +9,8 @@ SRCS = window.c \
 		check_file.c \
 		ft_strchrr.c \
 		parse_player.c \
-		draw_rectangle.c
+		draw_rectangle.c \
+		hooks.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

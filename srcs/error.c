@@ -5,13 +5,13 @@ void	check_comps(t_vars *vars, t_errors *errors)
 	if (vars->c != '0' && vars->c != '1' && vars->c != 'N' && vars->c != 'S' && vars->c != 'E' && vars->c != 'W' && vars->c != '\n')
 		errors->error2 = 1;
 	else if (vars->c == 'N')
-		vars->player += 1;
+		vars->p += 1;
 	else if (vars->c == 'S')
-		vars->player += 1;
+		vars->p += 1;
 	else if (vars->c == 'E')
-		vars->player += 1;
+		vars->p += 1;
 	else if (vars->c == 'W')
-		vars->player += 1;
+		vars->p += 1;
 }
 
 int	is_rectangular(t_vars *vars, t_errors *errors)
@@ -61,6 +61,7 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 		else
 			vars->actual_col_count++;
 	}
+	vars->map_height -= 1; // TO DO : Ligne vide
 }
 
 int	check_error(t_vars *vars, t_errors *errors)
@@ -84,7 +85,7 @@ int	check_error(t_vars *vars, t_errors *errors)
 	if (ft_strchrr(vars->map[0], '1') == 0
 		|| ft_strchrr(vars->map[vars->map_height - 1], '1') == 0)
 		errors->error1 = 1;
-	if (vars->player != 1)
+	if (vars->p != 1)
 		errors->error3 = 1;
 	close(vars->fd);
 	return (0);

@@ -8,7 +8,7 @@
 # include "./getnl/get_next_line.h"
 # include <math.h>
 
-# define SCREEN_HEIGHT 600
+# define SCREEN_HEIGHT 200
 # define SCREEN_WIDTH 200
 # define PI 3.1415
 

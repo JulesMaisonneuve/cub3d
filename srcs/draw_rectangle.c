@@ -1,6 +1,11 @@
 #include "../cubed.h"
 
-void draw_rectangle(int x1, int y1, int x2, int y2, t_vars *vars)
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void draw_rectangle(int x1, int y1, int x2, int y2, t_vars *vars, int color)
 {
 	int x;
 	int y;
@@ -12,7 +17,7 @@ void draw_rectangle(int x1, int y1, int x2, int y2, t_vars *vars)
 		y = y1;
 		while (y != y2)
 		{
-			mlx_pixel_put(vars->mlx, vars->win, x, y, 'B');
+			mlx_pixel_put(vars->mlx, vars->win, x, y, color);
 			y++;
 		}
 		x++;
@@ -27,7 +32,12 @@ void render_column(t_vars *vars, t_ray *ray)
 	(void)ray;
 	col_width = SCREEN_WIDTH / vars->nb_ray;
 	col_height = SCREEN_HEIGHT / ray->distance;
-	draw_rectangle(col_width * ray->nb, SCREEN_HEIGHT / 2 - col_height / 2, col_width * ray->nb + col_width, SCREEN_HEIGHT / 2 + col_height / 2, vars);
+	// Mur
+	draw_rectangle(col_width * ray->nb, SCREEN_HEIGHT / 2 - col_height / 2, col_width * ray->nb + col_width, SCREEN_HEIGHT / 2 + col_height / 2, vars, create_trgb(0, 255, 0, 0));
+	// Plafond
+	draw_rectangle(col_width * ray->nb, 0, col_width * ray->nb + col_width, SCREEN_HEIGHT / 2 - col_height / 2, vars, create_trgb(0, 50, 121, 168));
+	// Sol
+	draw_rectangle(col_width * ray->nb, SCREEN_HEIGHT / 2 + col_height / 2, col_width * ray->nb + col_width, SCREEN_HEIGHT, vars, create_trgb(0, 50, 168, 50));
 }
 
 int ray_casting(t_player *player, t_vars *vars)
@@ -79,7 +89,7 @@ int ray_casting(t_player *player, t_vars *vars)
 }
 
 // Renvoie -1 si ça n'a pas touché
-int impact_distance(t_ray *ray, t_vars *vars)
-{
-	
-}
+// int impact_distance(t_ray *ray, t_vars *vars)
+// {
+
+// }

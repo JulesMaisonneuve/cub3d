@@ -6,6 +6,7 @@ void	init_vars(t_vars *vars)
 	vars->map_width = 0;
 	vars->map_height = 1;
 	vars->actual_col_count = 0;
+	vars->nb_ray = 6;
 }
 
 void	init_errors(t_errors *errors)
@@ -17,66 +18,14 @@ void	init_errors(t_errors *errors)
 	errors->error5 = 0;
 }
 
-t_player *parse_player(t_vars *vars)
-{
-	t_player *player;
-	int i;
-	int j;
-
-	player = malloc(sizeof(t_player));
-	if (!player)
-	{
-		printf("Malloc failed\n");
-		return (NULL);
-	}
-	i = 0;
-	while (i < vars->map_height)
-	{
-		j = 0;
-		while (j < vars->map_width)
-		{
-			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S' || vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
-			{
-				player->pos_x = j;
-				player->pos_y = i;
-				switch (vars->map[i][j])
-				{
-					case 'N':
-						player->dir_x = 0;
-						player->dir_y = -1;
-						break ;
-					case 'S':
-						player->dir_x = 0;
-						player->dir_y = 1;
-						break ;
-					case 'E':
-						player->dir_x = 1;
-						player->dir_y = 0;
-						break ;
-					case 'W':
-						player->dir_x = -1;
-						player->dir_y = 0;
-						break ;
-				}
-				vars->map[i][j] = '0';
-			}
-			j++;
-		}
-		i++;
-	}
-	printf("pos_x : %lf\n", player->pos_x);
-	printf("pos_y : %lf\n", player->pos_y);
-	printf("dir_x : %lf\n", player->dir_x);
-	printf("dir_y : %lf\n", player->dir_y);
-	return (player);
-}
-
-
 int main(int argc, char **argv)
 {
 	t_vars vars;
 	t_errors errors;
+	t_ray ray;
 
+	ray.distance = 5;
+	ray.nb = 0;
 	if (argc != 2)
 		return (-1);
 	vars.path = argv[1];
@@ -96,5 +45,6 @@ int main(int argc, char **argv)
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
 	parse_player(&vars);
+	init_window(&vars, &ray);
 	return (0);
 }

@@ -1,12 +1,15 @@
 NAME = cub3d
 
-SRCS = main.c \
+SRCS = window.c \
+		main.c \
 		../getnl/get_next_line_utils.c \
 		../getnl/get_next_line.c \
 		error.c \
 		free_map.c \
 		check_file.c \
-		ft_strchrr.c
+		ft_strchrr.c \
+		parse_player.c \
+		draw_rectangle.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

@@ -6,9 +6,11 @@
 # include <fcntl.h>
 # include "./mlx_linux/mlx.h"
 # include "./getnl/get_next_line.h"
+# include <math.h>
 
 # define SCREEN_HEIGHT 600
-# define SCREEN_WIDTH 800
+# define SCREEN_WIDTH 200
+# define PI 3.1415
 
 typedef struct s_vars {
 	int player;
@@ -42,6 +44,8 @@ typedef struct s_player {
 typedef struct s_ray {
 	int nb;			// Numero du rayon
 	int distance;   // -1 si le rayon n'a jamais tapé
+	double dir_x;
+	double dir_y;
 }				t_ray;
 
 int		ft_strchrr(const char *str, int c);
@@ -52,7 +56,8 @@ int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
 t_player	*parse_player(t_vars *vars);
 int		close_win(t_vars *vars);
-int		init_window(t_vars *vars, t_ray *ray);
+int		init_window(t_vars *vars, t_player *player);
 void	render_column(t_vars *vars, t_ray *ray);
+int		ray_casting(t_player *player, t_vars *vars);
 
 #endif

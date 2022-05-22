@@ -47,9 +47,9 @@ t_player *parse_player(t_vars *vars)
 		}
 		i++;
 	}
-	printf("pos_x : %lf\n", player->pos_x);
-	printf("pos_y : %lf\n", player->pos_y);
-	printf("dir_x : %lf\n", player->dir_x);
-	printf("dir_y : %lf\n", player->dir_y);
+	// printf("pos_x : %lf\n", player->pos_x);
+	// printf("pos_y : %lf\n", player->pos_y);
+	// printf("dir_x : %lf\n", player->dir_x);
+	// printf("dir_y : %lf\n", player->dir_y);
 	return (player);
 }

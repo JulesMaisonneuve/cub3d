@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"cubed.h": "c"
+		"cubed.h": "c",
+		"cmath": "c"
 	}
 }

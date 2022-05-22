@@ -1,6 +1,6 @@
 #include "../cubed.h"
 
-int	init_window(t_vars *vars, t_ray *ray)
+int	init_window(t_vars *vars, t_player *player)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
@@ -9,7 +9,7 @@ int	init_window(t_vars *vars, t_ray *ray)
 	if (!vars->win)
 		return (free_map(vars));
 	mlx_hook(vars->win, 33, 1L << 17, close_win, vars);
-	render_column(vars, ray);
+	ray_casting(player, vars);
 	mlx_loop(vars->mlx);
 	return (0);
 }

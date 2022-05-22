@@ -22,10 +22,8 @@ int main(int argc, char **argv)
 {
 	t_vars vars;
 	t_errors errors;
-	t_ray ray;
+	t_player *player;
 
-	ray.distance = 5;
-	ray.nb = 0;
 	if (argc != 2)
 		return (-1);
 	vars.path = argv[1];
@@ -44,7 +42,7 @@ int main(int argc, char **argv)
 	if (errors.error1 == 1 || errors.error2 == 1
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
-	parse_player(&vars);
-	init_window(&vars, &ray);
+	player = parse_player(&vars);
+	init_window(&vars, player);
 	return (0);
 }

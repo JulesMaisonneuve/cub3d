@@ -16,7 +16,6 @@ int	key_hook(int keycode, t_vars *vars)
 	}
 	if (keycode == 'z' || keycode == 's' || keycode == 'q' || keycode == 'd')
 	{
-		mlx_clear_window(vars->mlx, vars->win);
 		if (keycode == 'q')
 		{
 			vars->player->dir_x = oldX * cos(angle) - oldY * sin(angle);
@@ -24,13 +23,13 @@ int	key_hook(int keycode, t_vars *vars)
 		}
 		else if (keycode == 's')
 		{
-			vars->player->pos_x += -0.2 * vars->player->dir_x;
-			vars->player->pos_y += -0.2 * vars->player->dir_y;
+			vars->player->pos_x += -0.5 * vars->player->dir_x;
+			vars->player->pos_y += -0.5 * vars->player->dir_y;
 		}
 		else if (keycode == 'z')
 		{
-			vars->player->pos_x += 0.2 * vars->player->dir_x;
-			vars->player->pos_y += 0.2 * vars->player->dir_y;
+			vars->player->pos_x += 0.5 * vars->player->dir_x;
+			vars->player->pos_y += 0.5 * vars->player->dir_y;
 		}
 		else if (keycode == 'd')
 		{

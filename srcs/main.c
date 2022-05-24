@@ -6,7 +6,7 @@ void	init_vars(t_vars *vars)
 	vars->map_width = 0;
 	vars->map_height = 1;
 	vars->actual_col_count = 0;
-	vars->nb_ray = 6;
+	vars->nb_ray = SCREEN_WIDTH;
 }
 
 void	init_errors(t_errors *errors)

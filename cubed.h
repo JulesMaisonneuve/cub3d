@@ -7,6 +7,7 @@
 # include "./mlx_linux/mlx.h"
 # include "./getnl/get_next_line.h"
 # include <math.h>
+# include <sys/time.h>
 
 # define SCREEN_HEIGHT 200
 # define SCREEN_WIDTH 200

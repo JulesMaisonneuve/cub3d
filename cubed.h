@@ -9,8 +9,8 @@
 # include <math.h>
 # include <sys/time.h>
 
-# define SCREEN_HEIGHT 200
-# define SCREEN_WIDTH 200
+# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH 800
 # define PI 3.1415
 # define ESC 0xff1b
 
@@ -66,7 +66,7 @@ int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
 void	render_column(t_vars *vars, t_ray *ray);
 int		ray_casting(t_vars *vars);
-void	impact_distance(t_ray *ray, t_vars *vars);
+void	impact_distance(t_ray *ray, t_vars *vars, double angle);
 int		key_hook(int keycode, t_vars *vars);
 
 #endif

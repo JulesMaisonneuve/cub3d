@@ -4,13 +4,14 @@ SRCS = window.c \
 		main.c \
 		../getnl/get_next_line_utils.c \
 		../getnl/get_next_line.c \
-		error.c \
+		check_errors.c \
 		free_map.c \
 		check_file.c \
 		ft_strchrr.c \
 		parse_player.c \
-		draw_rectangle.c \
-		hooks.c
+		draw_column.c \
+		hooks.c \
+		ray_casting.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

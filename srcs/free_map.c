@@ -11,5 +11,6 @@ int	free_map(t_vars *vars)
 		i++;
 	}
 	free(vars->map);
+	free(vars->player);
 	return (0);
 }

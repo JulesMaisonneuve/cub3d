@@ -9,7 +9,10 @@ int	init_window(t_vars *vars)
 	if (!vars->win)
 		return (free_map(vars));
 	ray_casting(vars);
-	mlx_key_hook(vars->win, key_hook, vars);
+	mlx_hook(vars->win, 03, 1L<<1, key_hook, vars);
+	mlx_hook(vars->win, 02, 1L<<0, key_hook, vars);
+	mlx_hook(vars->win, 03, 1L<<1, key_hook, vars);
+	mlx_hook(vars->win, 02, 1L<<0, key_hook, vars);
 	mlx_hook(vars->win, 33, 1L << 17, close_win, vars);
 	mlx_loop(vars->mlx);
 	return (0);

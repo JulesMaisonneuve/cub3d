@@ -63,7 +63,7 @@ int ray_casting(t_vars *vars)
 	double angle;
 	double base_angle = PI / 6;
 
-	// On part du principe que le FOV est de PI / 2 (90°)
+	// On part du principe que le FOV est de PI / 3 (60°)
 	angle = (PI / 3 / SCREEN_WIDTH) * -1;
 	i = 0;
 	oldX = vars->player->dir_x * cos(base_angle) - vars->player->dir_y * sin(base_angle);

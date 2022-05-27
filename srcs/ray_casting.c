@@ -55,13 +55,49 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 			dist_w = fmod(actual_pos_x, 1.0);
 			dist_e = 1 - fmod(actual_pos_x, 1.0);
 			if (dist_n <= dist_s && dist_n <= dist_w && dist_n <= dist_e)
+			{
 				ray->wall_orientation = 'N';
+				if (vars->map[(int)actual_pos_y - 1][(int)actual_pos_x] == '1')
+				{
+					if (ray->dir_x > 0)
+						ray->wall_orientation = 'W';
+					else
+						ray->wall_orientation = 'E';
+				}
+			}
 			else if (dist_s <= dist_n && dist_s <= dist_w && dist_s <= dist_e)
+			{
 				ray->wall_orientation = 'S';
+				if (vars->map[(int)actual_pos_y + 1][(int)actual_pos_x] == '1')
+				{
+					if (ray->dir_x > 0)
+						ray->wall_orientation = 'W';
+					else
+						ray->wall_orientation = 'E';
+				}
+			}
 			else if (dist_e <= dist_s && dist_e <= dist_n && dist_e <= dist_w)
+			{
 				ray->wall_orientation = 'E';
+				if (vars->map[(int)actual_pos_y][(int)actual_pos_x + 1] == '1')
+				{
+					if (ray->dir_y > 0)
+						ray->wall_orientation = 'N';
+					else
+						ray->wall_orientation = 'S';
+				}
+			}
 			else
+			{
 				ray->wall_orientation = 'W';
+				if (vars->map[(int)actual_pos_y][(int)actual_pos_x - 1] == '1')
+				{
+					if (ray->dir_y > 0)
+						ray->wall_orientation = 'N';
+					else
+						ray->wall_orientation = 'S';
+				}
+			}
 			ray->distance = sqrt(fabs(actual_pos_x - ray->pos_x) * fabs(actual_pos_x - ray->pos_x) + fabs(actual_pos_y - ray->pos_y) * fabs(actual_pos_y - ray->pos_y)) * cos(angle);
 			return ;
 		}

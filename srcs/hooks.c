@@ -14,9 +14,9 @@ int	key_hook(int keycode, t_vars *vars)
 		printf("You quit the game\n");
 		close_win(vars);
 	}
-	if (keycode == 'z' || keycode == 's' || keycode == 'q' || keycode == 'd' || keycode == 'v')
+	if (keycode == 'z' || keycode == 's' || keycode == 'q' || keycode == 'd' || keycode == 'a' || keycode == 'e')
 	{
-		if (keycode == 'q')
+		if (keycode == 'a')
 		{
 			vars->player->dir_x = oldX * cos(angle * 0.095) - oldY * sin(angle * 0.095); // On multiplie le résultat de player dir_x par 0.095 pour obtenir la vitesse de la caméra
 			vars->player->dir_y = oldX * sin(angle * 0.095) + oldY * cos(angle * 0.095);
@@ -31,11 +31,17 @@ int	key_hook(int keycode, t_vars *vars)
 			vars->player->pos_x += 0.055 * vars->player->dir_x;		
 			vars->player->pos_y += 0.055 * vars->player->dir_y;
 		}
-		else if (keycode == 'v')
+		else if (keycode == 'q')
 		{
-			vars->player->pos_x += -0.055 * vars->player->dir_x; // TO DO : straffer -> cercle trigo
+			vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * 0.040;
+			vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * 0.040;
 		}
 		else if (keycode == 'd')
+		{
+			vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040; 
+			vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040;
+		}
+		else if (keycode == 'e')
 		{
 			vars->player->dir_x = oldX * cos(angle * -0.095) - oldY * sin(angle * -0.095);
 			vars->player->dir_y = oldX * sin(angle * -0.095) + oldY * cos(angle * -0.095);

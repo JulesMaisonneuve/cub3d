@@ -73,6 +73,7 @@ int	check_error(t_vars *vars, t_errors *errors)
 		return (-1);
 	i = 0;
 	vars->map = malloc(vars->map_height * sizeof(char *));
+	vars->textures = malloc(sizeof(t_textures));
 	if (!vars->map)
 		return (0);
 	while (i < vars->map_height)

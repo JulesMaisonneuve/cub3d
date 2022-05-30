@@ -2,9 +2,6 @@
 
 int	init_window(t_vars *vars)
 {
-	vars->mlx = mlx_init();
-	if (!vars->mlx)
-		return (free_map(vars));
 	vars->win = mlx_new_window(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!vars->win)
 		return (free_map(vars));

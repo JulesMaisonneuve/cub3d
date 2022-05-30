@@ -11,7 +11,8 @@ SRCS = window.c \
 		parse_player.c \
 		draw_column.c \
 		hooks.c \
-		ray_casting.c
+		ray_casting.c \
+		textures.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

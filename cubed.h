@@ -9,10 +9,11 @@
 # include <math.h>
 # include <sys/time.h>
 
-# define SCREEN_HEIGHT 600
-# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 200
+# define SCREEN_WIDTH 200
 # define PI 3.1415
 # define ESC 0xff1b
+# define IMG_SIZE 64
 
 typedef struct s_player {
 	double pos_x;
@@ -21,8 +22,23 @@ typedef struct s_player {
 	double dir_y;
 }				t_player;
 
+typedef struct s_textures {
+	char *texture_north;
+	char *texture_south;
+	char *texture_east;
+	char *texture_west;
+}				t_textures;
+
+typedef struct s_color {
+	unsigned int r;
+	unsigned int g;
+	unsigned int b;
+	unsigned int o;
+}				t_color;
+
 typedef struct s_vars {
 	int p;
+	t_textures *textures;
 	char *path;
 	char **map;
 	int map_height;
@@ -32,9 +48,11 @@ typedef struct s_vars {
 	int fd;
 	void	*mlx;
 	void	*win;
+	unsigned int color;
 	int nb_ray;
 	t_player *player;
 }				t_vars;
+
 
 typedef struct s_errors {
 	int	error1;
@@ -68,5 +86,7 @@ void	render_column(t_vars *vars, t_ray *ray);
 int		ray_casting(t_vars *vars);
 void	impact_distance(t_ray *ray, t_vars *vars, double angle);
 int		key_hook(int keycode, t_vars *vars);
+int		parse_texture(t_vars *vars, char *texture_path, char orientation);
+t_color *get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
 
 #endif

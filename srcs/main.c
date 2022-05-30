@@ -7,7 +7,6 @@ void	init_vars(t_vars *vars)
 	vars->map_height = 1;
 	vars->actual_col_count = 0;
 	vars->nb_ray = SCREEN_WIDTH;
-	vars->color = 0;
 }
 
 void	init_errors(t_errors *errors)
@@ -50,7 +49,6 @@ int main(int argc, char **argv)
 	parse_texture(&vars, "./textures/bluestone.xpm", 'S');
 	parse_texture(&vars, "./textures/mossy.xpm", 'E');
 	parse_texture(&vars, "./textures/greystone.xpm", 'W');
-	get_color_from_orientation('N', 145, 15, &vars);  // Valeurs max: 63 
 	init_window(&vars);
 	return (0);
 }

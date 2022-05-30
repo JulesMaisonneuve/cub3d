@@ -8,6 +8,7 @@
 # include "./getnl/get_next_line.h"
 # include <math.h>
 # include <sys/time.h>
+# include <stdint.h>
 
 # define SCREEN_HEIGHT 200
 # define SCREEN_WIDTH 200
@@ -28,14 +29,6 @@ typedef struct s_textures {
 	char *texture_east;
 	char *texture_west;
 }				t_textures;
-
-typedef struct s_color {
-	unsigned int r;
-	unsigned int g;
-	unsigned int b;
-	unsigned int o;
-}				t_color;
-
 typedef struct s_vars {
 	int p;
 	t_textures *textures;
@@ -43,12 +36,13 @@ typedef struct s_vars {
 	char **map;
 	int map_height;
 	int map_width;
+	int texture_height;
+	int texture_width;
 	char c;
 	int	actual_col_count;
 	int fd;
 	void	*mlx;
 	void	*win;
-	unsigned int color;
 	int nb_ray;
 	t_player *player;
 }				t_vars;
@@ -70,6 +64,8 @@ typedef struct s_ray {
 	double dir_y;
 	double pos_x;
 	double pos_y;
+	double hit_x;
+	double hit_y;
 	char wall_orientation;
 }				t_ray;
 
@@ -87,6 +83,7 @@ int		ray_casting(t_vars *vars);
 void	impact_distance(t_ray *ray, t_vars *vars, double angle);
 int		key_hook(int keycode, t_vars *vars);
 int		parse_texture(t_vars *vars, char *texture_path, char orientation);
-t_color *get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
+int		get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
+void draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
 
 #endif

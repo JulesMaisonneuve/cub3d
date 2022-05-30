@@ -50,8 +50,11 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 	{
 		if (vars->map[(int)actual_pos_y][(int)actual_pos_x] == '1')
 		{
+			ray->hit_x = actual_pos_x;
+			ray->hit_y = actual_pos_y;
 			dist_n = fmod(actual_pos_y, 1.0);
 			dist_s = 1 - fmod(actual_pos_y, 1.0);
+			// printf("dist_s: %lf\n", dist_s);
 			dist_w = fmod(actual_pos_x, 1.0);
 			dist_e = 1 - fmod(actual_pos_x, 1.0);
 			if (dist_n <= dist_s && dist_n <= dist_w && dist_n <= dist_e)

@@ -45,10 +45,10 @@ int main(int argc, char **argv)
 	if (!vars.mlx)
 		return (free_map(&vars));
 	parse_player(&vars);
-	parse_texture(&vars, "./textures/redbrick.xpm", 'N');
-	parse_texture(&vars, "./textures/bluestone.xpm", 'S');
-	parse_texture(&vars, "./textures/mossy.xpm", 'E');
-	parse_texture(&vars, "./textures/greystone.xpm", 'W');
+	parse_texture(&vars, "./textures/metal264px.xpm", 'N');
+	parse_texture(&vars, "./textures/metal264px.xpm", 'S');
+	parse_texture(&vars, "./textures/metal264px.xpm", 'E');
+	parse_texture(&vars, "./textures/metal264px.xpm", 'W');
 	init_window(&vars);
 	return (0);
 }

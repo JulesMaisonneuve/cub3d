@@ -28,7 +28,7 @@ void render_column(t_vars *vars, t_ray *ray)
 	col_width = SCREEN_WIDTH / vars->nb_ray;
 	color = get_color_from_orientation('S', 79, 39, vars);
 	// Ciel
-	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2, vars, color);
+	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2, vars, create_trgb(0, 46, 108, 133));
 	// create_trgb(0, 46, 108, 133)
 	// Mur
 	draw_texture_strip(ray, vars, col_width * ray->nb, SCREEN_HEIGHT / 2 - col_height / 2, SCREEN_HEIGHT / 2 + col_height / 2);

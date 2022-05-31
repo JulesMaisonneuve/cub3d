@@ -48,10 +48,10 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 	actual_pos_y = ray->pos_y;
 	while (is_in_map(vars, actual_pos_x, actual_pos_y))
 	{
+		ray->hit_x = actual_pos_x;
+		ray->hit_y = actual_pos_y;
 		if (vars->map[(int)actual_pos_y][(int)actual_pos_x] == '1')
 		{
-			ray->hit_x = actual_pos_x;
-			ray->hit_y = actual_pos_y;
 			dist_n = fmod(actual_pos_y, 1.0);
 			dist_s = 1 - fmod(actual_pos_y, 1.0);
 			// printf("dist_s: %lf\n", dist_s);
@@ -108,6 +108,8 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 		{
 			actual_pos_x += ray->dir_x * 0.005;
 			actual_pos_y += ray->dir_y * 0.005;
+			ray->hit_x = actual_pos_x;
+			ray->hit_y = actual_pos_y;
 		}
 	}
 

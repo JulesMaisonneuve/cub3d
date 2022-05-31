@@ -27,8 +27,6 @@ int	key_hook(int keycode, t_vars *vars)
 				vars->player->pos_x += -0.055 * vars->player->dir_x;	// Même chose ici pour obtenir la vitesse de déplacement du joueur
 			if ((vars->player->pos_y + -0.055 * vars->player->dir_y) > 1 && (vars->player->pos_y + -0.055 * vars->player->dir_y) < vars->map_height - 1)
 				vars->player->pos_y += -0.055 * vars->player->dir_y;
-			printf("player pos_x: %lf\n", vars->player->pos_x);
-			printf("player pos_y: %lf\n", vars->player->pos_y);
 		}
 		else if (keycode == 'z')
 		{
@@ -36,8 +34,6 @@ int	key_hook(int keycode, t_vars *vars)
 				vars->player->pos_x += 0.055 * vars->player->dir_x;
 			if ((vars->player->pos_y + 0.055 * vars->player->dir_y) > 1 && (vars->player->pos_y + 0.055 * vars->player->dir_y) < vars->map_height - 1)
 				vars->player->pos_y += 0.055 * vars->player->dir_y;
-			printf("player pos_x: %lf\n", vars->player->pos_x);
-			printf("player pos_y: %lf\n", vars->player->pos_y);
 		}
 		else if (keycode == 'q')
 		{
@@ -47,8 +43,6 @@ int	key_hook(int keycode, t_vars *vars)
 			if ((((vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * 0.040) + vars->player->pos_y) > 1
 				&& (((vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * 0.040) + vars->player->pos_y) < vars->map_height - 1)
 				vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * 0.040;
-			printf("player pos_x: %lf\n", vars->player->pos_x);
-			printf("player pos_y: %lf\n", vars->player->pos_y);
 		}
 		else if (keycode == 'd')
 		{
@@ -58,8 +52,6 @@ int	key_hook(int keycode, t_vars *vars)
 			if ((vars->player->pos_y + (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) < vars->map_height - 1
 				&& (vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) > 1)
 				vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040;
-			printf("player pos_x: %lf\n", vars->player->pos_x);
-			printf("player pos_y: %lf\n", vars->player->pos_y);
 		}
 		else if (keycode == 'e')
 		{

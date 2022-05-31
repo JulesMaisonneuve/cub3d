@@ -10,11 +10,10 @@
 # include <sys/time.h>
 # include <stdint.h>
 
-# define SCREEN_HEIGHT 200
-# define SCREEN_WIDTH  400
+# define SCREEN_HEIGHT 400
+# define SCREEN_WIDTH  600
 # define PI 3.1415
 # define ESC 0xff1b
-# define IMG_SIZE 64
 
 typedef struct s_player {
 	double pos_x;
@@ -22,12 +21,18 @@ typedef struct s_player {
 	double dir_x;
 	double dir_y;
 }				t_player;
+typedef struct s_texture_details
+{
+	char *texture_data;
+	int texture_height;
+	int texture_width;
+}				t_texture_details;
 
 typedef struct s_textures {
-	char *texture_north;
-	char *texture_south;
-	char *texture_east;
-	char *texture_west;
+	t_texture_details *texture_north;
+	t_texture_details *texture_south;
+	t_texture_details *texture_east;
+	t_texture_details *texture_west;
 }				t_textures;
 typedef struct s_vars {
 	int p;
@@ -36,8 +41,6 @@ typedef struct s_vars {
 	char **map;
 	int map_height;
 	int map_width;
-	int texture_height;
-	int texture_width;
 	char c;
 	int	actual_col_count;
 	int fd;
@@ -46,7 +49,6 @@ typedef struct s_vars {
 	int nb_ray;
 	t_player *player;
 }				t_vars;
-
 
 typedef struct s_errors {
 	int	error1;
@@ -85,5 +87,6 @@ int		key_hook(int keycode, t_vars *vars);
 int		parse_texture(t_vars *vars, char *texture_path, char orientation);
 int		get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
 void draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
+void draw_line(int x, int y1, int y2, t_vars *vars, int color);
 
 #endif

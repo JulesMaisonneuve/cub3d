@@ -25,24 +25,29 @@ int parse_texture(t_vars *vars, char *texture_path, char orientation)
     int size_line;
     int endian;
     int size;
-    void *texture = mlx_xpm_file_to_image(vars->mlx, texture_path, &vars->texture_width, &vars->texture_height);
-    char *img_data;
-    img_data = mlx_get_data_addr(texture, &size, &size_line, &endian);
+    int img_height;
+    int img_width;
+    t_texture_details *texture_details;
+    texture_details = malloc(sizeof(t_texture_details));
+    void *texture = mlx_xpm_file_to_image(vars->mlx, texture_path, &img_width, &img_height);
+    texture_details->texture_width = img_width;
+    texture_details->texture_height = img_height;
+    texture_details->texture_data = mlx_get_data_addr(texture, &size, &size_line, &endian);
     if (texture == NULL)
         return (-1);
     switch (orientation)
     {
         case 'N':
-            vars->textures->texture_north = img_data;
+            vars->textures->texture_north = texture_details;
             break;
         case 'S':
-            vars->textures->texture_south = img_data;
+            vars->textures->texture_south = texture_details;
             break;
         case 'E':
-            vars->textures->texture_east = img_data;
+            vars->textures->texture_east = texture_details;
             break;
         case 'W':
-            vars->textures->texture_west = img_data;
+            vars->textures->texture_west = texture_details;
             break;
     }
     return (0);
@@ -50,13 +55,14 @@ int parse_texture(t_vars *vars, char *texture_path, char orientation)
 
 int get_color_from_orientation(char orientation, int x, int y, t_vars *vars)
 {
-    char *texture;
+    t_texture_details *texture;
     int color;
     // if (x + (y * IMG_SIZE) >= IMG_SIZE * IMG_SIZE)
     // {
     //     printf("BUG\n");
     //     return (0);
     // }
+    
     switch (orientation)
     {
         case 'N':
@@ -72,6 +78,6 @@ int get_color_from_orientation(char orientation, int x, int y, t_vars *vars)
             texture = vars->textures->texture_west;
             break;
     }
-    color = *((int *)texture + (x * 4 + y * IMG_SIZE));
+    color = *((int *)texture->texture_data + (x + y * texture->texture_height));
     return (color);
 }

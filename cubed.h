@@ -11,7 +11,7 @@
 # include <stdint.h>
 
 # define SCREEN_HEIGHT 200
-# define SCREEN_WIDTH 200
+# define SCREEN_WIDTH  400
 # define PI 3.1415
 # define ESC 0xff1b
 # define IMG_SIZE 64

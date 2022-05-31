@@ -28,7 +28,6 @@ int parse_texture(t_vars *vars, char *texture_path, char orientation)
     void *texture = mlx_xpm_file_to_image(vars->mlx, texture_path, &vars->texture_width, &vars->texture_height);
     char *img_data;
     img_data = mlx_get_data_addr(texture, &size, &size_line, &endian);
-    printf("size: %d\n", size);
     if (texture == NULL)
         return (-1);
     switch (orientation)

@@ -2,7 +2,7 @@
 
 void	check_comps(t_vars *vars, t_errors *errors)
 {
-	if (vars->c != '0' && vars->c != '1' && vars->c != 'N' && vars->c != 'S' && vars->c != 'E' && vars->c != 'W' && vars->c != '\n')
+	if (vars->c != '0' && vars->c != '1' && vars->c != 'N' && vars->c != 'S' && vars->c != 'E' && vars->c != 'W' && vars->c != '\n' && vars-> c != ' ')
 		errors->error2 = 1;
 	else if (vars->c == 'N')
 		vars->p += 1;
@@ -59,9 +59,32 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 			vars->map_height++;
 		}
 		else
-			vars->actual_col_count++;
+		{
+			if (vars->c != ' ')
+			{
+				vars->actual_col_count++;
+			}
+		}
 	}
 	vars->map_height -= 1; // TO DO : Ligne vide
+}
+
+void remove_white_space(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+		{
+			str[j++] = str[i];
+		}
+		i++;
+	}
+	str[j] = '\0';
 }
 
 int	check_error(t_vars *vars, t_errors *errors)
@@ -79,6 +102,7 @@ int	check_error(t_vars *vars, t_errors *errors)
 	while (i < vars->map_height)
 	{
 		get_next_line(vars->fd, &vars->map[i]);
+		remove_white_space(vars->map[i]);
 		i++;
 	}
 	if (is_rectangular(vars, errors) == -1)
@@ -114,6 +138,7 @@ int	print_error(t_errors *errors, t_vars *vars)
 	}
 	else if (errors->error4 == 1)
 	{
+		printf("keklol\n");
 		free_map(vars);
 		printf("Error\nThe map must be rectangular\n");
 		return (-1);

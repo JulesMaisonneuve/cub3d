@@ -9,6 +9,7 @@
 # include <math.h>
 # include <sys/time.h>
 # include <stdint.h>
+# include <stdbool.h>
 
 # define SCREEN_HEIGHT 400
 # define SCREEN_WIDTH  600
@@ -33,6 +34,7 @@ typedef struct s_textures {
 	t_texture_details *texture_south;
 	t_texture_details *texture_east;
 	t_texture_details *texture_west;
+	t_texture_details *texture_ceiling;
 }				t_textures;
 typedef struct s_vars {
 	int p;
@@ -47,6 +49,9 @@ typedef struct s_vars {
 	void	*mlx;
 	void	*win;
 	int nb_ray;
+	int ceiling_color;
+	int floor_color;
+	int line_offset;
 	t_player *player;
 }				t_vars;
 
@@ -73,20 +78,22 @@ typedef struct s_ray {
 
 int		ft_strchrr(const char *str, int c);
 void	is_valid_map(int fd, t_vars *vars, t_errors *errors);
-int		check_error(t_vars *vars, t_errors *errors);
+int		check_error(t_vars *vars, t_errors *errors, int j);
 int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
 void	parse_player(t_vars *vars);
 int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
+int		create_trgb(int t, int r, int g, int b);
 void	render_column(t_vars *vars, t_ray *ray);
 int		ray_casting(t_vars *vars);
 void	impact_distance(t_ray *ray, t_vars *vars, double angle);
 int		key_hook(int keycode, t_vars *vars);
 int		parse_texture(t_vars *vars, char *texture_path, char orientation);
 int		get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
-void draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
-void draw_line(int x, int y1, int y2, t_vars *vars, int color);
+void	draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
+void	draw_line(int x, int y1, int y2, t_vars *vars, int color);
+char	**ft_split(char const *s, char *separators);
 
 #endif

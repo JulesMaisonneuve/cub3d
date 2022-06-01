@@ -7,6 +7,8 @@ void	init_vars(t_vars *vars)
 	vars->map_height = 1;
 	vars->actual_col_count = 0;
 	vars->nb_ray = SCREEN_WIDTH;
+	vars->line_offset = -1;
+	vars->player = NULL;
 }
 
 void	init_errors(t_errors *errors)
@@ -37,7 +39,7 @@ int main(int argc, char **argv)
 	close(vars.fd);
 	if (errors.error5 == 1)
 		return (0);
-	check_error(&vars, &errors);
+	check_error(&vars, &errors, vars.line_offset);
 	if (errors.error1 == 1 || errors.error2 == 1
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
@@ -49,6 +51,7 @@ int main(int argc, char **argv)
 	parse_texture(&vars, "./textures/metal264px.xpm", 'S');
 	parse_texture(&vars, "./textures/metal264px.xpm", 'E');
 	parse_texture(&vars, "./textures/metal264px.xpm", 'W');
+	parse_texture(&vars, "./textures/spaceship.xpm", 'C');
 	init_window(&vars);
 	return (0);
 }

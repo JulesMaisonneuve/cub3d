@@ -1,5 +1,117 @@
 #include "../cubed.h"
 
+int	ft_atoi(const char *str)
+{
+	int nb;
+	int sign;
+	int i;
+
+	nb = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\v' || str[i] == '\t'
+	|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			break ;
+		nb *= 10;
+		nb += ((int)str[i] - '0');
+		i++;
+	}
+	return (nb * sign);
+}
+
+int	is_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 48 && str[i] <= 57)
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+bool get_floor_ceiling_colors(t_vars *vars, int fd)
+{
+	int i;
+	int j;
+	int r = 0;
+	int g = 0;
+	int b = 0;
+	int color = 0;
+	bool in_map = 0;
+	bool is_ceiling_floor = false;
+	char str[256];
+	char **tmp = NULL;
+	i = 0;
+	j = 0;
+	while (read(fd, &vars->c, 1) == 1)
+	{
+		if (vars->c == '\n')
+		{
+			break ;
+		}
+		else if ((vars->c == 'C' || vars->c == 'F') && i == 0)
+		{
+			is_ceiling_floor = true;
+		}
+		else if (vars->c == '1' && i == 0)
+		{
+			in_map = 1;
+			return (in_map);
+		}
+		if (is_ceiling_floor)
+		{
+			str[j++] = vars->c;
+		}
+		i++;
+	}
+	str[j] = '\0';
+	if (*str)
+		tmp = ft_split(str, " ,");
+	if (tmp)
+	{
+		if (**tmp == 'F' || **tmp == 'C')
+		{
+			if (tmp[1])
+			{
+				if (is_digit(tmp[1]))
+					r = ft_atoi(tmp[1]);
+			}
+			if (tmp[2])
+			{
+				if (is_digit(tmp[2]))
+					g = ft_atoi(tmp[2]);
+			}
+			if (tmp[3])
+			{
+				if (is_digit(tmp[3]))
+					b = ft_atoi(tmp[3]);
+			}
+			color = create_trgb(0, r, g, b);
+			if (**tmp == 'F')
+				vars->floor_color = color;
+			else
+				vars->ceiling_color = color;
+		}
+	}
+	// if (tmp)
+	// 	free(tmp);
+	return (in_map);
+}
 void	check_comps(t_vars *vars, t_errors *errors)
 {
 	if (vars->c != '0' && vars->c != '1' && vars->c != 'N' && vars->c != 'S' && vars->c != 'E' && vars->c != 'W' && vars->c != '\n' && vars-> c != ' ')
@@ -40,6 +152,15 @@ int	is_rectangular(t_vars *vars, t_errors *errors)
 
 void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 {
+	int in_map = 0;
+	while (in_map != 1)
+	{
+		in_map = get_floor_ceiling_colors(vars, fd);
+		printf("ceiling color: %d floor color: %d\n", vars->ceiling_color, vars->floor_color);
+		vars->line_offset++;
+	}
+	if (in_map == 1)
+		vars->actual_col_count++;
 	while (read(fd, &vars->c, 1) == 1)
 	{
 		check_comps(vars, errors);
@@ -66,7 +187,7 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 			}
 		}
 	}
-	vars->map_height -= 1; // TO DO : Ligne vide
+	// vars->map_height -= 1; // TO DO : Ligne vide
 }
 
 void remove_white_space(char *str)
@@ -87,10 +208,10 @@ void remove_white_space(char *str)
 	str[j] = '\0';
 }
 
-int	check_error(t_vars *vars, t_errors *errors)
+int	check_error(t_vars *vars, t_errors *errors, int j)
 {
 	int	i;
-
+	char *tmp;
 	vars->fd = open(vars->path, O_RDONLY);
 	if (vars->fd < 0)
 		return (-1);
@@ -99,11 +220,19 @@ int	check_error(t_vars *vars, t_errors *errors)
 	vars->textures = malloc(sizeof(t_textures));
 	if (!vars->map)
 		return (0);
+	while (i < j)
+	{
+		get_next_line(vars->fd, &tmp);
+		i++;
+	}
+	i = 0;
 	while (i < vars->map_height)
 	{
 		get_next_line(vars->fd, &vars->map[i]);
 		remove_white_space(vars->map[i]);
+		printf("vars map[i]: %s\n", vars->map[i]);
 		i++;
+		j++;
 	}
 	if (is_rectangular(vars, errors) == -1)
 		return (-1);
@@ -138,10 +267,10 @@ int	print_error(t_errors *errors, t_vars *vars)
 	}
 	else if (errors->error4 == 1)
 	{
-		printf("keklol\n");
 		free_map(vars);
 		printf("Error\nThe map must be rectangular\n");
 		return (-1);
 	}
 	return (0);
 }
+

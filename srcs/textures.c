@@ -49,6 +49,9 @@ int parse_texture(t_vars *vars, char *texture_path, char orientation)
         case 'W':
             vars->textures->texture_west = texture_details;
             break;
+        case 'C':
+            vars->textures->texture_ceiling = texture_details;
+            break ;
     }
     return (0);
 }
@@ -76,6 +79,9 @@ int get_color_from_orientation(char orientation, int x, int y, t_vars *vars)
             break;
         case 'W':
             texture = vars->textures->texture_west;
+            break;
+        case 'C':
+            texture = vars->textures->texture_ceiling;
             break;
     }
     color = *((int *)texture->texture_data + (x + y * texture->texture_height));

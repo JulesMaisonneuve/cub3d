@@ -41,14 +41,13 @@ void render_column(t_vars *vars, t_ray *ray)
 {
 	int col_width;
 	int col_height;
-	int color;
 
 	if (ray->distance <= 1)
 		col_height = SCREEN_HEIGHT;
 	else
 		col_height = SCREEN_HEIGHT / ray->distance;
 	col_width = SCREEN_WIDTH / vars->nb_ray;
-	color = get_color_from_orientation('N', 63, 63, vars);
+
 	// Ciel
 	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2, vars, vars->ceiling_color);
 	// create_trgb(0, 46, 108, 133)

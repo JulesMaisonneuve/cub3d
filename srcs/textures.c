@@ -30,11 +30,12 @@ int parse_texture(t_vars *vars, char *texture_path, char orientation)
     t_texture_details *texture_details;
     texture_details = malloc(sizeof(t_texture_details));
     void *texture = mlx_xpm_file_to_image(vars->mlx, texture_path, &img_width, &img_height);
+
+    if (texture == NULL)
+        return (-1);
     texture_details->texture_width = img_width;
     texture_details->texture_height = img_height;
     texture_details->texture_data = mlx_get_data_addr(texture, &size, &size_line, &endian);
-    if (texture == NULL)
-        return (-1);
     switch (orientation)
     {
         case 'N':

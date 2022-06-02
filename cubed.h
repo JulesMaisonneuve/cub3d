@@ -27,6 +27,7 @@ typedef struct s_texture_details
 	char *texture_data;
 	int texture_height;
 	int texture_width;
+	char *path_to_texture;
 }				t_texture_details;
 
 typedef struct s_textures {
@@ -35,6 +36,7 @@ typedef struct s_textures {
 	t_texture_details *texture_east;
 	t_texture_details *texture_west;
 	t_texture_details *texture_ceiling;
+	t_texture_details *texture_default;
 }				t_textures;
 typedef struct s_vars {
 	int p;
@@ -83,6 +85,7 @@ int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
 void	parse_player(t_vars *vars);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
 int		create_trgb(int t, int r, int g, int b);
@@ -94,6 +97,7 @@ int		parse_texture(t_vars *vars, char *texture_path, char orientation);
 int		get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
 void	draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
 void	draw_line(int x, int y1, int y2, t_vars *vars, int color);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	**ft_split(char const *s, char *separators);
 
 #endif

@@ -1,5 +1,20 @@
 #include "../cubed.h"
 
+char	*ft_strcpy(char *dest, char *src)
+{
+	int i;
+
+	
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 int	ft_atoi(const char *str)
 {
 	int nb;
@@ -53,7 +68,7 @@ bool get_floor_ceiling_colors(t_vars *vars, int fd)
 	int b = 0;
 	int color = 0;
 	bool in_map = 0;
-	bool is_ceiling_floor = false;
+	bool is_info = false;
 	char str[256];
 	char **tmp = NULL;
 	i = 0;
@@ -64,16 +79,16 @@ bool get_floor_ceiling_colors(t_vars *vars, int fd)
 		{
 			break ;
 		}
-		else if ((vars->c == 'C' || vars->c == 'F') && i == 0)
+		else if ((vars->c == 'C' || vars->c == 'F' || vars->c == 'N' || vars->c == 'S' || vars->c == 'E' || vars->c == 'W') && i == 0)
 		{
-			is_ceiling_floor = true;
+			is_info = true;
 		}
 		else if (vars->c == '1' && i == 0)
 		{
 			in_map = 1;
 			return (in_map);
 		}
-		if (is_ceiling_floor)
+		if (is_info)
 		{
 			str[j++] = vars->c;
 		}
@@ -84,7 +99,7 @@ bool get_floor_ceiling_colors(t_vars *vars, int fd)
 		tmp = ft_split(str, " ,");
 	if (tmp)
 	{
-		if (**tmp == 'F' || **tmp == 'C')
+		if ((**tmp == 'F' || **tmp == 'C') && tmp[0][1] == '\0')
 		{
 			if (tmp[1])
 			{
@@ -106,6 +121,17 @@ bool get_floor_ceiling_colors(t_vars *vars, int fd)
 				vars->floor_color = color;
 			else
 				vars->ceiling_color = color;
+		}
+		else if ((ft_strncmp(tmp[0], "NO", 2) == 0 || ft_strncmp(tmp[0], "SO", 2) == 0 || ft_strncmp(tmp[0], "EA", 2) == 0 || ft_strncmp(tmp[0], "WE", 2) == 0) && tmp[1])
+		{
+			if (ft_strncmp(tmp[0], "NO", 2) == 0)
+				parse_texture(vars, tmp[1], 'N');
+			else if (ft_strncmp(tmp[0], "SO", 2) == 0)
+				parse_texture(vars, tmp[1], 'S');
+			else if (ft_strncmp(tmp[0], "EA", 2) == 0)
+				parse_texture(vars, tmp[1], 'E');
+			else
+				parse_texture(vars, tmp[1], 'W');
 		}
 	}
 	// if (tmp)
@@ -156,7 +182,6 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 	while (in_map != 1)
 	{
 		in_map = get_floor_ceiling_colors(vars, fd);
-		printf("ceiling color: %d floor color: %d\n", vars->ceiling_color, vars->floor_color);
 		vars->line_offset++;
 	}
 	if (in_map == 1)
@@ -217,7 +242,6 @@ int	check_error(t_vars *vars, t_errors *errors, int j)
 		return (-1);
 	i = 0;
 	vars->map = malloc(vars->map_height * sizeof(char *));
-	vars->textures = malloc(sizeof(t_textures));
 	if (!vars->map)
 		return (0);
 	while (i < j)
@@ -230,7 +254,7 @@ int	check_error(t_vars *vars, t_errors *errors, int j)
 	{
 		get_next_line(vars->fd, &vars->map[i]);
 		remove_white_space(vars->map[i]);
-		printf("vars map[i]: %s\n", vars->map[i]);
+		// printf("vars map[i]: %s\n", vars->map[i]);
 		i++;
 		j++;
 	}

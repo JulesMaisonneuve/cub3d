@@ -73,11 +73,6 @@ int main(int argc, char **argv)
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
 	parse_player(&vars);
-	// parse_texture(&vars, "./textures/metal264px.xpm", 'N');
-	// parse_texture(&vars, "./textures/metal264px.xpm", 'S');
-	// parse_texture(&vars, "./textures/metal264px.xpm", 'E');
-	// parse_texture(&vars, "./textures/metal264px.xpm", 'W');
-	// parse_texture(&vars, "./textures/spaceship.xpm", 'C');
 	init_window(&vars);
 	return (0);
 }

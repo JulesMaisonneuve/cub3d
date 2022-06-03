@@ -5,12 +5,17 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
+void draw_pixel_img(t_vars *vars, int color, int x, int y)
+{
+	*((int *)vars->img_data + (x + y * SCREEN_WIDTH)) = color;
+}
+
 // On part du principe que y1 est inférieur à y2
 void draw_line(int x, int y1, int y2, t_vars *vars, int color)
 {
 	while (y1 <= y2)
 	{
-		mlx_pixel_put(vars->mlx, vars->win, x, y1, color);
+		draw_pixel_img(vars, color, x, y1);
 		y1++;
 	}
 }
@@ -28,10 +33,10 @@ void draw_ceiling(int x, int y1, int y2, t_vars *vars)
 	texture_details = vars->textures->texture_ceiling;
 	pixel_offset = height / texture_details->texture_height;
 	y = 0;
-	while (y <= texture_details->texture_height)
+	while (y <= vars->weapon_height)
 	{
 		color = get_color_from_orientation('C', x, y, vars);
-		mlx_pixel_put(vars->mlx, vars->win, x, y1, color);
+		draw_pixel_img(vars, color, x, y1);
 		y += pixel_offset;
 		y1++;
 	}
@@ -97,7 +102,7 @@ void draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2)
 	while (y <= texture_details->texture_height)
 	{
 		color = get_color_from_orientation(ray->wall_orientation, wall_x, y, vars);
-		mlx_pixel_put(vars->mlx, vars->win, x, y1, color);
+		draw_pixel_img(vars, color, x, y1);
 		y += pixel_offset;
 		y1++;
 	}

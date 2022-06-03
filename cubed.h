@@ -11,8 +11,8 @@
 # include <stdint.h>
 # include <stdbool.h>
 
-# define SCREEN_HEIGHT 400
-# define SCREEN_WIDTH  600
+# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH  800
 # define PI 3.1415
 # define ESC 0xff1b
 
@@ -55,6 +55,11 @@ typedef struct s_vars {
 	int floor_color;
 	int line_offset;
 	t_player *player;
+	int weapon_height;
+	int weapon_width;
+	char *weapon_path;
+	void *weapon;
+	char *img_data;
 }				t_vars;
 
 typedef struct s_errors {
@@ -85,6 +90,7 @@ int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
 void	parse_player(t_vars *vars);
+int    get_t(int trgb);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
@@ -99,5 +105,7 @@ void	draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
 void	draw_line(int x, int y1, int y2, t_vars *vars, int color);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	**ft_split(char const *s, char *separators);
+int		weapon_to_window(t_vars *vars);
+void 	draw_pixel_img(t_vars *vars, int color, int x, int y);
 
 #endif

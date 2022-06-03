@@ -58,7 +58,6 @@ int	key_hook(int keycode, t_vars *vars)
 			vars->player->dir_x = oldX * cos(angle * -0.095) - oldY * sin(angle * -0.095);
 			vars->player->dir_y = oldX * sin(angle * -0.095) + oldY * cos(angle * -0.095);
 		}
-		ray_casting(vars);
 	}
 	return (0);
 }

@@ -85,6 +85,7 @@ int get_color_from_orientation(char orientation, int x, int y, t_vars *vars)
             texture = vars->textures->texture_ceiling;
             break;
     }
-    color = *((int *)texture->texture_data + (x + y * texture->texture_height));
+    color = *((int *)texture->texture_data + (x + y * texture->texture_width));
     return (color);
 }
+

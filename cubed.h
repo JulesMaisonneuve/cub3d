@@ -60,6 +60,7 @@ typedef struct s_vars {
 	char *weapon_path;
 	void *weapon;
 	char *img_data;
+	bool is_fire;
 }				t_vars;
 
 typedef struct s_errors {

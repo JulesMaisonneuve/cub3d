@@ -14,7 +14,7 @@ int	key_hook(int keycode, t_vars *vars)
 		printf("You quit the game\n");
 		close_win(vars);
 	}
-	if (keycode == 'z' || keycode == 's' || keycode == 'q' || keycode == 'd' || keycode == 'a' || keycode == 'e')
+	if (keycode == 'z' || keycode == 's' || keycode == 'q' || keycode == 'd' || keycode == 'a' || keycode == 'e' || keycode == 'p')
 	{
 		if (keycode == 'a')
 		{
@@ -57,6 +57,10 @@ int	key_hook(int keycode, t_vars *vars)
 		{
 			vars->player->dir_x = oldX * cos(angle * -0.095) - oldY * sin(angle * -0.095);
 			vars->player->dir_y = oldX * sin(angle * -0.095) + oldY * cos(angle * -0.095);
+		}
+		else if (keycode == 'p')
+		{
+			vars->is_fire = true;
 		}
 	}
 	return (0);

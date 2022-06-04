@@ -9,6 +9,7 @@ void	init_vars(t_vars *vars)
 	vars->nb_ray = SCREEN_WIDTH;
 	vars->line_offset = -1;
 	vars->player = NULL;
+	vars->is_fire = false;
 }
 
 void	init_errors(t_errors *errors)

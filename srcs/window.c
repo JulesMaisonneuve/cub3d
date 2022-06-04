@@ -13,7 +13,10 @@ int weapon_to_window(t_vars *vars)
 	int x = 0;
 	int y = 0;
 
-	vars->weapon_path = "./textures/weapon.xpm";
+	if (vars->is_fire)
+		vars->weapon_path = "./textures/uzi_fire2.xpm";
+	else
+		vars->weapon_path = "./textures/uzi_default4.xpm";
 	vars->weapon = mlx_xpm_file_to_image(vars->mlx, vars->weapon_path, &img_width, &img_height);
 	weapon = mlx_new_image(vars->mlx, img_width, img_height);
 	if (!vars->weapon)
@@ -26,14 +29,12 @@ int weapon_to_window(t_vars *vars)
 		{
 			color = *((int *)weapon_img + (x + y * img_width));
 			if (get_t(color) != 255)
-				draw_pixel_img(vars, color, (x + SCREEN_WIDTH / 2 - img_width / 5), y + SCREEN_HEIGHT - img_height);
+				draw_pixel_img(vars, color, (x + SCREEN_WIDTH / 2) + img_width / 2, y + SCREEN_HEIGHT - img_height);
 			x++; 
 		}
 		y++;
 	}
-	// printf("img _height: %d  img_width: %d\n", vars->weapon_height, vars->weapon_width);
-	// mlx_put_image_to_window(vars->mlx, vars->win, vars->weapon, 150, 200);
-	// printf("%d       -      %d\n", SCREEN_WIDTH / 2 - vars->weapon_width / 2, SCREEN_HEIGHT);
+	vars->is_fire = false;
 	return (0);
 }
 

@@ -2,15 +2,15 @@ gfdgfd
 
 
 
-SO ./textures/metal264px.xpm
-NO ./textures/metal264px.xpm
-WE ./textures/metal264px.xpm
-EA ./textures/metal264px.xpm
+SO ./textures/wall_red.xpm
+NO ./textures/wall_red.xpm
+WE ./textures/wall_red.xpm
+EA ./textures/wall_red.xpm
 
 
 
-F 245, 218, 149
-C 46, 108, 133
+F 60, 60, 60
+C 88, 152, 176
 
 
 

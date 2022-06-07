@@ -254,7 +254,6 @@ int	check_error(t_vars *vars, t_errors *errors, int j)
 	{
 		get_next_line(vars->fd, &vars->map[i]);
 		remove_white_space(vars->map[i]);
-		// printf("vars map[i]: %s\n", vars->map[i]);
 		i++;
 		j++;
 	}

@@ -47,12 +47,12 @@ void render_column(t_vars *vars, t_ray *ray)
 	int col_width;
 	int col_height;
 
-	if (ray->distance <= 1)
-		col_height = SCREEN_HEIGHT;
+	if (ray->distance == 0)
+		col_height = 0;
 	else
 		col_height = SCREEN_HEIGHT / ray->distance;
 	col_width = SCREEN_WIDTH / vars->nb_ray;
-
+	// printf("ray distance: %lf\n", ray->distance);
 	// Ciel
 	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2, vars, vars->ceiling_color);
 	// create_trgb(0, 46, 108, 133)
@@ -101,8 +101,11 @@ void draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2)
 	pixel_offset = texture_details->texture_height / wall_height;
 	while (y <= texture_details->texture_height)
 	{
-		color = get_color_from_orientation(ray->wall_orientation, wall_x, y, vars);
-		draw_pixel_img(vars, color, x, y1);
+		if (y1 > 0 && y1 < SCREEN_HEIGHT)
+		{
+			color = get_color_from_orientation(ray->wall_orientation, wall_x, y, vars);
+			draw_pixel_img(vars, color, x, y1);
+		}
 		y += pixel_offset;
 		y1++;
 	}

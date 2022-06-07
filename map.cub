@@ -2,15 +2,15 @@ gfdgfd
 
 
 
-SO ./textures/wall_red.xpm
-NO ./textures/wall_red.xpm
-WE ./textures/wall_red.xpm
-EA ./textures/wall_red.xpm
+SO ./textures/crate_metal.xpm
+NO ./textures/crate_metal.xpm
+WE ./textures/crate_metal.xpm
+EA ./textures/crate_metal.xpm
 
 
 
 F 60, 60, 60
-C 88, 152, 176
+C 35, 35, 35
 
 
 

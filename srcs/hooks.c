@@ -48,10 +48,10 @@ int	key_hook(int keycode, t_vars *vars)
 		{
 			if ((vars->player->pos_x + (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040) < vars->map_width - 1
 				&& (vars->player->pos_x + (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040) > 1)
-				vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040;
+					vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040;
 			if ((vars->player->pos_y + (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) < vars->map_height - 1
-				&& (vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) > 1)
-				vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040;
+				&& (vars->player->pos_y + (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) > 1)
+					vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040;
 		}
 		else if (keycode == 'e')
 		{

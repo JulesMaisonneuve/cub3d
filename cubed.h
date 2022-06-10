@@ -122,5 +122,11 @@ char	**ft_split(char const *s, char *separators);
 int		weapon_to_window(t_vars *vars);
 bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils);
 void 	draw_pixel_img(t_vars *vars, int color, int x, int y);
+void	player_move_forward(t_vars *vars);
+void	player_move_backward(t_vars *vars);
+void	player_move_left(t_vars *vars);
+void	player_move_right(t_vars *vars);
+void	camera_rotate_left(t_vars *vars);
+void	camera_rotate_right(t_vars *vars);
 
 #endif

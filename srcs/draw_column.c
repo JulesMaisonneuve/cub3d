@@ -6,16 +6,11 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 16:53:18 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/10 16:54:24 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:41:13 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cubed.h"
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
 
 void	draw_pixel_img(t_vars *vars, int color, int x, int y)
 {
@@ -29,24 +24,6 @@ void	draw_line(int x, int y1, int y2, t_vars *vars, int color)
 		draw_pixel_img(vars, color, x, y1);
 		y1++;
 	}
-}
-
-void	render_column(t_vars *vars, t_ray *ray)
-{
-	int	col_width;
-	int	col_height;
-
-	if (ray->distance == 0)
-		col_height = 0;
-	else
-		col_height = SCREEN_HEIGHT / ray->distance;
-	col_width = SCREEN_WIDTH / vars->nb_ray;
-	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2,
-		vars, vars->ceiling_color);
-	draw_texture_strip(ray, vars, col_width * ray->nb,
-		SCREEN_HEIGHT / 2 - col_height / 2, SCREEN_HEIGHT / 2 + col_height / 2);
-	draw_line(col_width * ray->nb, SCREEN_HEIGHT / 2 + col_height / 2,
-		SCREEN_HEIGHT, vars, vars->floor_color);
 }
 
 double	get_wall_offset(t_ray *ray)
@@ -94,4 +71,22 @@ void	draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2)
 		y += pixel_offset;
 		y1++;
 	}
+}
+
+void	render_column(t_vars *vars, t_ray *ray)
+{
+	int	col_width;
+	int	col_height;
+
+	if (ray->distance == 0)
+		col_height = 0;
+	else
+		col_height = SCREEN_HEIGHT / ray->distance;
+	col_width = SCREEN_WIDTH / vars->nb_ray;
+	draw_line(col_width * ray->nb, 0, SCREEN_HEIGHT / 2 - col_height / 2,
+		vars, vars->ceiling_color);
+	draw_texture_strip(ray, vars, col_width * ray->nb,
+		SCREEN_HEIGHT / 2 - col_height / 2, SCREEN_HEIGHT / 2 + col_height / 2);
+	draw_line(col_width * ray->nb, SCREEN_HEIGHT / 2 + col_height / 2,
+		SCREEN_HEIGHT, vars, vars->floor_color);
 }

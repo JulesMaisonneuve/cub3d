@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 16:37:33 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/10 16:39:08 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/10 21:09:13 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	free_map(t_vars *vars)
 	{
 		if (vars->textures->texture_default)
 			free(vars->textures->texture_default);
-		if (vars->textures->texture_north)
+		if (vars->textures->texture_north && vars->textures->texture_north != vars->textures->texture_default)
 			free(vars->textures->texture_north);
-		if (vars->textures->texture_south)
+		if (vars->textures->texture_south && vars->textures->texture_south != vars->textures->texture_default)
 			free(vars->textures->texture_south);
-		if (vars->textures->texture_east)
+		if (vars->textures->texture_east && vars->textures->texture_east != vars->textures->texture_default)
 			free(vars->textures->texture_east);
-		if (vars->textures->texture_west)
+		if (vars->textures->texture_west && vars->textures->texture_west != vars->textures->texture_default)
 			free(vars->textures->texture_west);
 		free(vars->textures);
 	}

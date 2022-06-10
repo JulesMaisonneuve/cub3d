@@ -10,11 +10,14 @@ SRCS = window.c \
 		ft_strchrr.c \
 		parse_player.c \
 		draw_column.c \
-		hooks.c \
+		key_hooks.c \
 		ray_casting.c \
 		textures.c \
 		ft_split.c \
-		cub3d_utils.c
+		cub3d_utils.c \
+		trgb.c \
+		player_movements.c \
+		camera_rotation.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

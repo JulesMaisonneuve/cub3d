@@ -80,12 +80,23 @@ int	init_window(t_vars *vars)
 
 int	close_win(t_vars *vars)
 {
-	// mlx_destroy_image(vars->mlx, vars->weapon);
-	// mlx_destroy_image(vars->mlx, vars->textures->texture_default->img_ptr);
-	mlx_destroy_image(vars->mlx, vars->textures->texture_north->img_ptr);
-	mlx_destroy_image(vars->mlx, vars->textures->texture_south->img_ptr);
-	mlx_destroy_image(vars->mlx, vars->textures->texture_east->img_ptr);
-	mlx_destroy_image(vars->mlx, vars->textures->texture_west->img_ptr);
+	mlx_destroy_image(vars->mlx, vars->textures->texture_default->img_ptr);
+	if (vars->textures->texture_north->img_ptr != NULL
+		&& vars->textures->texture_north->img_ptr
+		!= vars->textures->texture_default->img_ptr)
+		mlx_destroy_image(vars->mlx, vars->textures->texture_north->img_ptr);
+	if (vars->textures->texture_south->img_ptr != NULL
+		&& vars->textures->texture_south->img_ptr
+		!= vars->textures->texture_default->img_ptr)
+		mlx_destroy_image(vars->mlx, vars->textures->texture_south->img_ptr);
+	if (vars->textures->texture_east->img_ptr != NULL
+		&& vars->textures->texture_east->img_ptr
+		!= vars->textures->texture_default->img_ptr)
+		mlx_destroy_image(vars->mlx, vars->textures->texture_east->img_ptr);
+	if (vars->textures->texture_west->img_ptr != NULL
+		&& vars->textures->texture_west->img_ptr
+		!= vars->textures->texture_default->img_ptr)
+		mlx_destroy_image(vars->mlx, vars->textures->texture_west->img_ptr);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	mlx_loop_end(vars->mlx);

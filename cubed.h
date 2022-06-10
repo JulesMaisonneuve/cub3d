@@ -39,6 +39,16 @@ typedef struct s_textures {
 	t_texture_details *texture_ceiling;
 	t_texture_details *texture_default;
 }				t_textures;
+
+typedef struct s_utils {
+	int color;
+	int i;
+	int j;
+	bool	is_info;
+	int r;
+	int g;
+	int b;
+}				t_utils;
 typedef struct s_vars {
 	int p;
 	t_textures *textures;
@@ -87,8 +97,8 @@ typedef struct s_ray {
 }				t_ray;
 
 int		ft_strchrr(const char *str, int c);
-void	is_valid_map(int fd, t_vars *vars, t_errors *errors);
-int		check_error(t_vars *vars, t_errors *errors, int j);
+void	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils);
+int		check_error(t_vars *vars, t_errors *errors, t_utils *utils, int line_offset);
 int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
@@ -110,7 +120,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	**ft_free_words(char **tab);
 char	**ft_split(char const *s, char *separators);
 int		weapon_to_window(t_vars *vars);
-bool	get_cubfile_infos(t_vars *vars, int fd);
+bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils);
 void 	draw_pixel_img(t_vars *vars, int color, int x, int y);
 
 #endif

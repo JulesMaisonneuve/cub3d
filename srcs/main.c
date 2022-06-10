@@ -52,6 +52,7 @@ int main(int argc, char **argv)
 {
 	t_vars vars;
 	t_errors errors;
+	t_utils utils;
 
 	if (argc != 2)
 		return (-1);
@@ -67,11 +68,11 @@ int main(int argc, char **argv)
 	if (!vars.mlx)
 		return (free_map(&vars));
 	init_default_textures(&vars);
-	is_valid_map(vars.fd, &vars, &errors);
+	is_valid_map(vars.fd, &vars, &errors, &utils);
 	close(vars.fd);
 	if (errors.error5 == 1)
 		return (0);
-	check_error(&vars, &errors, vars.line_offset);
+	check_error(&vars, &errors, &utils, vars.line_offset);
 	if (errors.error1 == 1 || errors.error2 == 1
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));

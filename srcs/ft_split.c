@@ -6,30 +6,11 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 16:57:40 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/10 17:08:08 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:26:34 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cubed.h"
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	srclen;
-
-	if (dest == NULL || src == NULL)
-		return (0);
-	srclen = ft_strlen(src);
-	if (srclen + 1 < size)
-	{
-		ft_memcpy(dest, src, srclen + 1);
-	}
-	else if (size != 0)
-	{
-		ft_memcpy(dest, src, size - 1);
-		dest[size - 1] = '\0';
-	}
-	return (srclen);
-}
 
 char	is_separator(char c, char *separators)
 {

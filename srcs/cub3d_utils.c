@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:21:02 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/10 19:34:46 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/10 20:26:48 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,39 @@ int	is_digit(char *str)
 	return (1);
 }
 
-bool	check_first_char(t_vars *vars, int i)
+bool	check_first_char(t_vars *vars, t_utils *utils)
 {
 	if ((vars->c == 'C' || vars->c == 'F' || vars->c == 'N' || vars->c == 'S'
-		|| vars->c == 'E' || vars->c == 'W') && i == 0)
+			|| vars->c == 'E' || vars->c == 'W') && utils->i == 0)
 		return (true);
 	return (false);
 }
 
-char	**read_line_infos(t_vars *vars, int fd)
+char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 {
-	bool	is_info;
-	int		i;
-	int		j;
-	char str[4096];
-	char **tmp = NULL;
-	
-	is_info = false;
-	i = 0;
-	j = 0;
+	char	str[4096];
+	char	**tmp;
+
+	utils->is_info = false;
+	utils->i = 0;
+	utils->j = 0;
+	tmp = NULL;
 	while (read(fd, &vars->c, 1) == 1)
 	{
 		if (vars->c == '\n')
 			break ;
-		if (i == 0)
-			is_info = check_first_char(vars, i);
-		if (vars->c == '1' && i == 0)
+		if (utils->i == 0)
+			utils->is_info = check_first_char(vars, utils);
+		if (vars->c == '1' && utils->i == 0)
 		{
 			vars->in_map = 1;
 			return (NULL);
 		}
-		if (is_info)
-			str[j++] = vars->c;
-		i++;
+		if (utils->is_info)
+			str[utils->j++] = vars->c;
+		utils->i++;
 	}
-	str[j] = '\0';
+	str[utils->j] = '\0';
 	if (*str)
 		tmp = ft_split(str, " ,");
 	return (tmp);
@@ -98,7 +96,7 @@ char	**read_line_infos(t_vars *vars, int fd)
 
 void	free_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tab)
@@ -112,49 +110,45 @@ void	free_tab(char **tab)
 	}
 }
 
-void	get_floor_ceiling_color(t_vars *vars, char **tmp)
+void	get_floor_ceiling_color(t_vars *vars, char **tmp, t_utils *utils)
 {
-	int	r;
-	int	g;
-	int	b;
 	int	color;
 
-	r = 0;
-	g = 0;
-	b = 0;
+	utils->r = 0;
+	utils->g = 0;
+	utils->b = 0;
 	if (tmp[1])
 	{
 		if (is_digit(tmp[1]))
-			r = ft_atoi(tmp[1]);
+			utils->r = ft_atoi(tmp[1]);
 	}
 	if (tmp[2])
 	{
 		if (is_digit(tmp[2]))
-			g = ft_atoi(tmp[2]);
+			utils->g = ft_atoi(tmp[2]);
 	}
 	if (tmp[3])
 	{
 		if (is_digit(tmp[3]))
-			b = ft_atoi(tmp[3]);
+			utils->b = ft_atoi(tmp[3]);
 	}
-	color = create_trgb(0, r, g, b);
+	color = create_trgb(0, utils->r, utils->g, utils->b);
 	if (**tmp == 'F')
 		vars->floor_color = color;
 	else
 		vars->ceiling_color = color;
 }
 
-bool	get_cubfile_infos(t_vars *vars, int fd)
+bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils)
 {
-	bool	is_info;
-	char	**tmp = NULL;
+	char	**tmp;
 
-	is_info = false;
-	tmp = read_line_infos(vars, fd);
+	tmp = NULL;
+	tmp = read_line_infos(vars, fd, utils);
 	if (tmp)
 	{
 		if ((**tmp == 'F' || **tmp == 'C') && tmp[0][1] == '\0')
-			get_floor_ceiling_color(vars, tmp);
+			get_floor_ceiling_color(vars, tmp, utils);
 		else if ((ft_strncmp(tmp[0], "NO", 2) == 0
 				|| ft_strncmp(tmp[0], "SO", 2) == 0
 				|| ft_strncmp(tmp[0], "EA", 2) == 0
@@ -172,4 +166,23 @@ bool	get_cubfile_infos(t_vars *vars, int fd)
 	}
 	free_tab(tmp);
 	return (0);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+{
+	size_t	srclen;
+
+	if (dest == NULL || src == NULL)
+		return (0);
+	srclen = ft_strlen(src);
+	if (srclen + 1 < size)
+	{
+		ft_memcpy(dest, src, srclen + 1);
+	}
+	else if (size != 0)
+	{
+		ft_memcpy(dest, src, size - 1);
+		dest[size - 1] = '\0';
+	}
+	return (srclen);
 }

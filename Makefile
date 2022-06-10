@@ -13,7 +13,8 @@ SRCS = window.c \
 		hooks.c \
 		ray_casting.c \
 		textures.c \
-		ft_split.c
+		ft_split.c \
+		cub3d_utils.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

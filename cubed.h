@@ -28,6 +28,7 @@ typedef struct s_texture_details
 	int texture_height;
 	int texture_width;
 	char *path_to_texture;
+	void *img_ptr;
 }				t_texture_details;
 
 typedef struct s_textures {
@@ -59,6 +60,7 @@ typedef struct s_vars {
 	int weapon_width;
 	char *weapon_path;
 	void *weapon;
+	bool in_map;
 	char *img_data;
 	bool is_fire;
 }				t_vars;
@@ -91,7 +93,7 @@ int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
 void	parse_player(t_vars *vars);
-int    get_t(int trgb);
+int		get_t(int trgb);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
@@ -105,8 +107,10 @@ int		get_color_from_orientation(char orientation, int x, int y, t_vars *vars);
 void	draw_texture_strip(t_ray *ray, t_vars *vars, int x, int y1, int y2);
 void	draw_line(int x, int y1, int y2, t_vars *vars, int color);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	**ft_free_words(char **tab);
 char	**ft_split(char const *s, char *separators);
 int		weapon_to_window(t_vars *vars);
+bool	get_cubfile_infos(t_vars *vars, int fd);
 void 	draw_pixel_img(t_vars *vars, int color, int x, int y);
 
 #endif

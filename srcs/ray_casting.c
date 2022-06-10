@@ -9,7 +9,6 @@ int ray_casting(t_vars *vars)
 	double angle;
 	double base_angle = PI / 6;
 
-	// On part du principe que le FOV est de PI / 3 (60°)
 	angle = (PI / 3 / SCREEN_WIDTH) * -1;
 	i = 0;
 	oldX = vars->player->dir_x * cos(base_angle) - vars->player->dir_y * sin(base_angle);
@@ -54,7 +53,6 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 		{
 			dist_n = fmod(actual_pos_y, 1.0);
 			dist_s = 1 - fmod(actual_pos_y, 1.0);
-			// printf("dist_s: %lf\n", dist_s);
 			dist_w = fmod(actual_pos_x, 1.0);
 			dist_e = 1 - fmod(actual_pos_x, 1.0);
 			if (dist_n <= dist_s && dist_n <= dist_w && dist_n <= dist_e)

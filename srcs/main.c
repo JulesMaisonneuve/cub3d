@@ -10,6 +10,7 @@ void	init_vars(t_vars *vars)
 	vars->line_offset = -1;
 	vars->player = NULL;
 	vars->is_fire = false;
+	vars->in_map = 0;
 }
 
 void	init_errors(t_errors *errors)
@@ -42,6 +43,7 @@ int init_default_textures(t_vars *vars)
 	vars->textures->texture_south = vars->textures->texture_default;
 	vars->textures->texture_east = vars->textures->texture_default;
 	vars->textures->texture_west = vars->textures->texture_default;
+	mlx_destroy_image(vars->mlx, texture);
 	return (0);
 }
 

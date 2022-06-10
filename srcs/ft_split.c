@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/10 16:57:40 by jumaison          #+#    #+#             */
+/*   Updated: 2022/06/10 17:08:08 by jumaison         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cubed.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t srclen;
+	size_t	srclen;
 
 	if (dest == NULL || src == NULL)
 		return (0);
@@ -19,11 +31,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (srclen);
 }
 
-
 char	is_separator(char c, char *separators)
 {
-	int j;
-	
+	int	j;
+
 	j = 0;
 	while (separators[j])
 	{
@@ -34,7 +45,7 @@ char	is_separator(char c, char *separators)
 	return ('\0');
 }
 
-char				**ft_free_words(char **tab)
+char	**ft_free_words(char **tab)
 {
 	unsigned int	i;
 
@@ -61,7 +72,7 @@ static unsigned int	ft_countwords(const char *s, char *separators)
 	j = 0;
 	while (s[i] && is_separator(s[i], separators) != '\0')
 		i++;
-	while (s[i])
+	while (s[i++])
 	{
 		if (is_separator(s[i], separators) != '\0')
 		{
@@ -71,19 +82,15 @@ static unsigned int	ft_countwords(const char *s, char *separators)
 				i++;
 			continue ;
 		}
-		i++;
 	}
 	if (is_separator(s[i - 1], separators) == '\0')
-	{
-
 		words++;
-	}
 	return (words);
 }
 
-static void			ft_getword(char **tab, unsigned int *strlen, char *separators)
+static void	ft_getword(char **tab, unsigned int *strlen, char *separators)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	*tab += *strlen;
 	*strlen = 0;
@@ -99,7 +106,7 @@ static void			ft_getword(char **tab, unsigned int *strlen, char *separators)
 	}
 }
 
-char				**ft_split(char const *s, char *separators)
+char	**ft_split(char const *s, char *separators)
 {
 	unsigned int	wordscount;
 	char			**tab;
@@ -110,18 +117,19 @@ char				**ft_split(char const *s, char *separators)
 	if (!s)
 		return (NULL);
 	wordscount = ft_countwords(s, separators);
-	if (!(tab = malloc(sizeof(char *) * (wordscount + 1))))
+	tab = malloc(sizeof(char *) * (wordscount + 1));
+	if (!(tab))
 		return (NULL);
 	str = (char *)s;
 	strlen = 0;
-	i = 0;
-	while (i < wordscount)
+	i = -1;
+	while (++i < wordscount)
 	{
 		ft_getword(&str, &strlen, separators);
-		if (!(tab[i] = malloc(sizeof(char) * (strlen + 1))))
+		tab[i] = malloc(sizeof(char) * (strlen + 1));
+		if (!(tab[i]))
 			return (ft_free_words(tab));
 		ft_strlcpy(tab[i], str, strlen + 1);
-		i++;
 	}
 	tab[i] = NULL;
 	return (tab);

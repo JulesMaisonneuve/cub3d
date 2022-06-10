@@ -4,7 +4,6 @@ int weapon_to_window(t_vars *vars)
 {
 	int img_width;
 	int img_height;
-	void *weapon;
 	char *weapon_img;
 	int bits_per_pixel;
 	int endian;
@@ -18,7 +17,6 @@ int weapon_to_window(t_vars *vars)
 	else
 		vars->weapon_path = "./textures/uzi_default4.xpm";
 	vars->weapon = mlx_xpm_file_to_image(vars->mlx, vars->weapon_path, &img_width, &img_height);
-	weapon = mlx_new_image(vars->mlx, img_width, img_height);
 	if (!vars->weapon)
 		return (-1);
 	weapon_img = mlx_get_data_addr(vars->weapon, &bits_per_pixel, &size_line, &endian);
@@ -35,6 +33,7 @@ int weapon_to_window(t_vars *vars)
 		y++;
 	}
 	vars->is_fire = false;
+	mlx_destroy_image(vars->mlx, vars->weapon);
 	return (0);
 }
 
@@ -58,6 +57,7 @@ int render_scene(t_vars *vars)
 	ray_casting(vars);
 	weapon_to_window(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, scene, 0, 0);
+
 	mlx_destroy_image(vars->mlx, scene);
 	return (0);
 }
@@ -80,6 +80,12 @@ int	init_window(t_vars *vars)
 
 int	close_win(t_vars *vars)
 {
+	// mlx_destroy_image(vars->mlx, vars->weapon);
+	// mlx_destroy_image(vars->mlx, vars->textures->texture_default->img_ptr);
+	mlx_destroy_image(vars->mlx, vars->textures->texture_north->img_ptr);
+	mlx_destroy_image(vars->mlx, vars->textures->texture_south->img_ptr);
+	mlx_destroy_image(vars->mlx, vars->textures->texture_east->img_ptr);
+	mlx_destroy_image(vars->mlx, vars->textures->texture_west->img_ptr);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	mlx_loop_end(vars->mlx);

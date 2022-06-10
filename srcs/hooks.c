@@ -18,13 +18,13 @@ int	key_hook(int keycode, t_vars *vars)
 	{
 		if (keycode == 'a')
 		{
-			vars->player->dir_x = oldX * cos(angle * 0.095) - oldY * sin(angle * 0.095); // On multiplie le résultat de player dir_x par 0.095 pour obtenir la vitesse de la caméra
-			vars->player->dir_y = oldX * sin(angle * 0.095) + oldY * cos(angle * 0.095);
+			vars->player->dir_x = oldX * cos(angle * 0.095) - oldY * sin(angle * 0.095); // On rotate l'angle de la caméra vers la gauche
+			vars->player->dir_y = oldX * sin(angle * 0.095) + oldY * cos(angle * 0.095); // Multiplier l'angle par 0.095 donne une vitesse raisonnable de rotation
 		}
 		else if (keycode == 's')
 		{
-			if ((vars->player->pos_x + -0.055 * vars->player->dir_x) > 1 && (vars->player->pos_x + -0.055 * vars->player->dir_x) < vars->map_width - 1)
-				vars->player->pos_x += -0.055 * vars->player->dir_x;	// Même chose ici pour obtenir la vitesse de déplacement du joueur
+			if ((vars->player->pos_x + -0.055 * vars->player->dir_x) > 1 && (vars->player->pos_x + -0.055 * vars->player->dir_x) < vars->map_width - 1) // On check que le joueur ne sortira pas de la map
+				vars->player->pos_x += -0.055 * vars->player->dir_x;	// On multiplie par -0.055 pour obtenir la vitesse de déplacement du joueur
 			if ((vars->player->pos_y + -0.055 * vars->player->dir_y) > 1 && (vars->player->pos_y + -0.055 * vars->player->dir_y) < vars->map_height - 1)
 				vars->player->pos_y += -0.055 * vars->player->dir_y;
 		}
@@ -48,7 +48,7 @@ int	key_hook(int keycode, t_vars *vars)
 		{
 			if ((vars->player->pos_x + (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040) < vars->map_width - 1
 				&& (vars->player->pos_x + (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040) > 1)
-					vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040;
+					vars->player->pos_x += (vars->player->dir_x * cos(PI / 2 ) - vars->player->dir_y * sin(PI / 2)) * -0.040; // On calcule l'angle à 90° à droite de la direction vers laquelle le joueur regarde ce qui donne sa droite. 
 			if ((vars->player->pos_y + (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) < vars->map_height - 1
 				&& (vars->player->pos_y + (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040) > 1)
 					vars->player->pos_y += (vars->player->dir_x * sin(PI / 2) + vars->player->dir_y * cos(PI / 2)) * -0.040;
@@ -59,9 +59,7 @@ int	key_hook(int keycode, t_vars *vars)
 			vars->player->dir_y = oldX * sin(angle * -0.095) + oldY * cos(angle * -0.095);
 		}
 		else if (keycode == 'p')
-		{
 			vars->is_fire = true;
-		}
 	}
 	return (0);
 }

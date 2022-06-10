@@ -1,143 +1,5 @@
 #include "../cubed.h"
 
-char	*ft_strcpy(char *dest, char *src)
-{
-	int i;
-
-	
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	ft_atoi(const char *str)
-{
-	int nb;
-	int sign;
-	int i;
-
-	nb = 0;
-	sign = 1;
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\v' || str[i] == '\t'
-	|| str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i])
-	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
-			break ;
-		nb *= 10;
-		nb += ((int)str[i] - '0');
-		i++;
-	}
-	return (nb * sign);
-}
-
-int	is_digit(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] >= 48 && str[i] <= 57)
-			i++;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-bool get_floor_ceiling_colors(t_vars *vars, int fd)
-{
-	int i;
-	int j;
-	int r = 0;
-	int g = 0;
-	int b = 0;
-	int color = 0;
-	bool in_map = 0;
-	bool is_info = false;
-	char str[256];
-	char **tmp = NULL;
-	i = 0;
-	j = 0;
-	while (read(fd, &vars->c, 1) == 1)
-	{
-		if (vars->c == '\n')
-		{
-			break ;
-		}
-		else if ((vars->c == 'C' || vars->c == 'F' || vars->c == 'N' || vars->c == 'S' || vars->c == 'E' || vars->c == 'W') && i == 0)
-		{
-			is_info = true;
-		}
-		else if (vars->c == '1' && i == 0)
-		{
-			in_map = 1;
-			return (in_map);
-		}
-		if (is_info)
-		{
-			str[j++] = vars->c;
-		}
-		i++;
-	}
-	str[j] = '\0';
-	if (*str)
-		tmp = ft_split(str, " ,");
-	if (tmp)
-	{
-		if ((**tmp == 'F' || **tmp == 'C') && tmp[0][1] == '\0')
-		{
-			if (tmp[1])
-			{
-				if (is_digit(tmp[1]))
-					r = ft_atoi(tmp[1]);
-			}
-			if (tmp[2])
-			{
-				if (is_digit(tmp[2]))
-					g = ft_atoi(tmp[2]);
-			}
-			if (tmp[3])
-			{
-				if (is_digit(tmp[3]))
-					b = ft_atoi(tmp[3]);
-			}
-			color = create_trgb(0, r, g, b);
-			if (**tmp == 'F')
-				vars->floor_color = color;
-			else
-				vars->ceiling_color = color;
-		}
-		else if ((ft_strncmp(tmp[0], "NO", 2) == 0 || ft_strncmp(tmp[0], "SO", 2) == 0 || ft_strncmp(tmp[0], "EA", 2) == 0 || ft_strncmp(tmp[0], "WE", 2) == 0) && tmp[1])
-		{
-			if (ft_strncmp(tmp[0], "NO", 2) == 0)
-				parse_texture(vars, tmp[1], 'N');
-			else if (ft_strncmp(tmp[0], "SO", 2) == 0)
-				parse_texture(vars, tmp[1], 'S');
-			else if (ft_strncmp(tmp[0], "EA", 2) == 0)
-				parse_texture(vars, tmp[1], 'E');
-			else
-				parse_texture(vars, tmp[1], 'W');
-		}
-	}
-	// if (tmp)
-	// 	free(tmp);
-	return (in_map);
-}
 void	check_comps(t_vars *vars, t_errors *errors)
 {
 	if (vars->c != '0' && vars->c != '1' && vars->c != 'N' && vars->c != 'S' && vars->c != 'E' && vars->c != 'W' && vars->c != '\n' && vars-> c != ' ')
@@ -178,13 +40,13 @@ int	is_rectangular(t_vars *vars, t_errors *errors)
 
 void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 {
-	int in_map = 0;
-	while (in_map != 1)
+	vars->in_map = 0;
+	while (vars->in_map != 1)
 	{
-		in_map = get_floor_ceiling_colors(vars, fd);
+		get_cubfile_infos(vars, fd);
 		vars->line_offset++;
 	}
-	if (in_map == 1)
+	if (vars->in_map == 1)
 		vars->actual_col_count++;
 	while (read(fd, &vars->c, 1) == 1)
 	{
@@ -207,12 +69,9 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors)
 		else
 		{
 			if (vars->c != ' ')
-			{
 				vars->actual_col_count++;
-			}
 		}
 	}
-	// vars->map_height -= 1; // TO DO : Ligne vide
 }
 
 void remove_white_space(char *str)
@@ -247,6 +106,8 @@ int	check_error(t_vars *vars, t_errors *errors, int j)
 	while (i < j)
 	{
 		get_next_line(vars->fd, &tmp);
+		free(tmp);
+		tmp = NULL;
 		i++;
 	}
 	i = 0;

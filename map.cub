@@ -2,10 +2,10 @@ gfdgfd
 
 
 
-SO ./textures/crate_metal.xpm
-NO ./textures/crate_metal.xpm
-WE ./textures/crate_metal.xpm
-EA ./textures/crate_metal.xpm
+SO ./textures/metal_dark2.xpm
+NO ./textures/metal_dark2.xpm
+WE ./textures/crate_metal5.xpm
+EA ./textures/crate_metal5.xpm
 
 
 

@@ -1,67 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/11 01:32:41 by jumaison          #+#    #+#             */
+/*   Updated: 2022/06/11 04:06:20 by jumaison         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cubed.h"
 
-int weapon_to_window(t_vars *vars)
+void	*create_scene(t_vars *vars)
 {
-	int img_width;
-	int img_height;
-	char *weapon_img;
-	int bits_per_pixel;
-	int endian;
-	int size_line;
-	int color;
-	int x = 0;
-	int y = 0;
+	void	*scene;
+	int		bits_per_pixel;
+	int		endian;
+	int		size_line;
 
-	if (vars->is_fire)
-		vars->weapon_path = "./textures/uzi_fire2.xpm";
-	else
-		vars->weapon_path = "./textures/uzi_default4.xpm";
-	vars->weapon = mlx_xpm_file_to_image(vars->mlx, vars->weapon_path, &img_width, &img_height);
-	if (!vars->weapon)
-		return (-1);
-	weapon_img = mlx_get_data_addr(vars->weapon, &bits_per_pixel, &size_line, &endian);
-	while (y <= img_height)
-	{
-		x = 0;
-		while (x <= img_width)
-		{
-			color = *((int *)weapon_img + (x + y * img_width));
-			if (get_t(color) != 255)
-				draw_pixel_img(vars, color, (x + SCREEN_WIDTH / 2) + img_width / 2, y + SCREEN_HEIGHT - img_height);
-			x++; 
-		}
-		y++;
-	}
-	vars->is_fire = false;
-	mlx_destroy_image(vars->mlx, vars->weapon);
-	return (0);
-}
-
-void *create_scene(t_vars *vars)
-{
-	void *scene = NULL;
-	int bits_per_pixel;
-	int endian;
-	int size_line;
-
+	scene = NULL;
 	scene = mlx_new_image(vars->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	vars->img_data = mlx_get_data_addr(scene, &bits_per_pixel, &size_line, &endian);
+	if (!scene)
+		return (NULL);
+	vars->img_data = mlx_get_data_addr(scene, &bits_per_pixel, &size_line,
+			&endian);
 	return (scene);
 }
 
-int render_scene(t_vars *vars)
+int	render_scene(t_vars *vars)
 {
-	void *scene;
-	
+	void	*scene;
+
 	scene = create_scene(vars);
 	ray_casting(vars);
 	weapon_to_window(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, scene, 0, 0);
-
 	mlx_destroy_image(vars->mlx, scene);
 	return (0);
 }
-
 
 int	init_window(t_vars *vars)
 {
@@ -69,10 +46,10 @@ int	init_window(t_vars *vars)
 	if (!vars->win)
 		return (free_map(vars));
 	mlx_loop_hook(vars->mlx, render_scene, vars);
-	mlx_hook(vars->win, 03, 1L<<1, key_hook, vars);
-	mlx_hook(vars->win, 02, 1L<<0, key_hook, vars);
-	mlx_hook(vars->win, 03, 1L<<1, key_hook, vars);
-	mlx_hook(vars->win, 02, 1L<<0, key_hook, vars);
+	mlx_hook(vars->win, 03, 1L << 1, key_hook, vars);
+	mlx_hook(vars->win, 02, 1L << 0, key_hook, vars);
+	mlx_hook(vars->win, 03, 1L << 1, key_hook, vars);
+	mlx_hook(vars->win, 02, 1L << 0, key_hook, vars);
 	mlx_hook(vars->win, 33, 1L << 17, close_win, vars);
 	mlx_loop(vars->mlx);
 	return (0);

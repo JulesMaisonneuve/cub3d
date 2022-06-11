@@ -1,48 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_casting.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/11 01:32:16 by jumaison          #+#    #+#             */
+/*   Updated: 2022/06/11 04:39:03 by jumaison         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cubed.h"
 
-int ray_casting(t_vars *vars)
+int	ray_casting(t_vars *vars)
 {
-	t_ray ray;
-	int i;
-	double oldX;
-	double oldY;
-	double angle;
-	double base_angle = PI / 6;
+	t_ray	ray;
+	int		i;
+	double	old_x;
+	double	old_y;
+	double	angle;
+	double	base_angle;
 
+	base_angle = PI / 6;
 	angle = (PI / 3 / SCREEN_WIDTH) * -1;
 	i = 0;
-	oldX = vars->player->dir_x * cos(base_angle) - vars->player->dir_y * sin(base_angle);
-	oldY = vars->player->dir_x * sin(base_angle) + vars->player->dir_y * cos(base_angle);
+	old_x = vars->player->dir_x * cos(base_angle)
+		- vars->player->dir_y * sin(base_angle);
+	old_y = vars->player->dir_x * sin(base_angle)
+		+ vars->player->dir_y * cos(base_angle);
 	while (i < SCREEN_WIDTH)
 	{
 		ray.nb = i;
-		ray.dir_x = oldX * cos(angle) - oldY * sin(angle);
-		ray.dir_y = oldX * sin(angle) + oldY * cos(angle);
+		ray.dir_x = old_x * cos(angle) - old_y * sin(angle);
+		ray.dir_y = old_x * sin(angle) + old_y * cos(angle);
 		ray.pos_x = vars->player->pos_x;
 		ray.pos_y = vars->player->pos_y;
 		impact_distance(&ray, vars, base_angle + angle * ray.nb);
-		oldX = ray.dir_x;
-		oldY = ray.dir_y;
+		old_x = ray.dir_x;
+		old_y = ray.dir_y;
 		render_column(vars, &ray);
 		i++;
 	}
 	return (1);
 }
 
-int is_in_map(t_vars *vars, double pos_x, double pos_y)
+int	is_in_map(t_vars *vars, double pos_x, double pos_y)
 {
-	return (pos_x >= 0 && pos_y >= 0 && pos_x < vars->map_width && pos_y < vars->map_height);
+	return (pos_x >= 0 && pos_y >= 0 && pos_x < vars->map_width
+		&& pos_y < vars->map_height);
 }
 
-void impact_distance(t_ray *ray, t_vars *vars, double angle)
+void	impact_distance(t_ray *ray, t_vars *vars, double angle)
 {
-	double actual_pos_x;
-	double actual_pos_y;
-	double dist_n;
-	double dist_s;
-	double dist_e;
-	double dist_w;
-	
+	double	actual_pos_x;
+	double	actual_pos_y;
+	double	dist_n;
+	double	dist_s;
+	double	dist_e;
+	double	dist_w;
+
 	actual_pos_x = ray->pos_x;
 	actual_pos_y = ray->pos_y;
 	while (is_in_map(vars, actual_pos_x, actual_pos_y))
@@ -99,7 +115,10 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 						ray->wall_orientation = 'S';
 				}
 			}
-			ray->distance = sqrt(fabs(actual_pos_x - ray->pos_x) * fabs(actual_pos_x - ray->pos_x) + fabs(actual_pos_y - ray->pos_y) * fabs(actual_pos_y - ray->pos_y)) * cos(angle);
+			ray->distance = sqrt(fabs(actual_pos_x - ray->pos_x)
+					* fabs(actual_pos_x - ray->pos_x)
+					+ fabs(actual_pos_y - ray->pos_y)
+					* fabs(actual_pos_y - ray->pos_y)) * cos(angle);
 			return ;
 		}
 		else
@@ -110,5 +129,4 @@ void impact_distance(t_ray *ray, t_vars *vars, double angle)
 			ray->hit_y = actual_pos_y;
 		}
 	}
-
 }

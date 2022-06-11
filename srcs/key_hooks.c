@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 20:27:49 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 00:16:36 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/11 01:21:40 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ int	key_hook(int keycode, t_vars *vars)
 	{
 		if (keycode == 'a')
 			camera_rotate_left(vars);
-		else if (keycode == 'z')
+		if (keycode == 'z')
 			player_move_forward(vars);
-		else if (keycode == 's')
+		if (keycode == 's')
 			player_move_backward(vars);
-		else if (keycode == 'q')
+		if (keycode == 'q')
 			player_move_left(vars);
-		else if (keycode == 'd')
+		if (keycode == 'd')
 			player_move_right(vars);
-		else if (keycode == 'e')
+		if (keycode == 'e')
 			camera_rotate_right(vars);
-		else if (keycode == 'p')
+		if (keycode == 'p')
 			vars->is_fire = true;
 	}
 	return (0);

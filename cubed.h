@@ -48,6 +48,9 @@ typedef struct s_utils {
 	int r;
 	int g;
 	int b;
+	int		bits_per_pixel;
+	int		endian;
+	int		size_line;
 }				t_utils;
 typedef struct s_vars {
 	int p;
@@ -96,17 +99,21 @@ typedef struct s_ray {
 	char wall_orientation;
 }				t_ray;
 
+int		ft_atoi(const char *str);
+int		is_digit(char *str);
+void	free_tab(char **tab);
 int		ft_strchrr(const char *str, int c);
 void	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils);
 int		check_error(t_vars *vars, t_errors *errors, t_utils *utils, int line_offset);
 int		print_error(t_errors *errors, t_vars *vars);
 int		free_map(t_vars *vars);
 int		is_valid_file(t_vars *vars);
-void	parse_player(t_vars *vars);
+void	get_player_infos(t_vars *vars);
 int		get_t(int trgb);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		close_win(t_vars *vars);
 int		init_window(t_vars *vars);
+int		weapon_to_window(t_vars *vars);
 int		create_trgb(int t, int r, int g, int b);
 void	render_column(t_vars *vars, t_ray *ray);
 int		ray_casting(t_vars *vars);

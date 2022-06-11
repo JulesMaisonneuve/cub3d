@@ -8,7 +8,8 @@ SRCS = window.c \
 		free_map.c \
 		check_file.c \
 		ft_strchrr.c \
-		parse_player.c \
+		get_player_infos.c \
+		get_cubfile_infos.c \
 		draw_column.c \
 		key_hooks.c \
 		ray_casting.c \
@@ -17,7 +18,8 @@ SRCS = window.c \
 		cub3d_utils.c \
 		trgb.c \
 		player_movements.c \
-		camera_rotation.c
+		camera_rotation.c \
+		weapon.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

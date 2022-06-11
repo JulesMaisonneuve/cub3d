@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/11 04:27:51 by jumaison          #+#    #+#             */
+/*   Updated: 2022/06/11 04:31:45 by jumaison         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cubed.h"
 
 void	init_vars(t_vars *vars)
@@ -22,22 +34,29 @@ void	init_errors(t_errors *errors)
 	errors->error5 = 0;
 }
 
-int init_default_textures(t_vars *vars)
+int	init_default_textures(t_vars *vars)
 {
-	int size_line = 0;
-    int endian = 0;
-    int size = 0;
-    int img_height = 0;
-    int img_width = 0;
+	int	size_line;
+	int	endian;
+	int	size;
+	int	img_height;
+	int	img_width;
+
 	vars->textures = malloc(sizeof(t_textures));
 	vars->textures->texture_default = malloc(sizeof(t_texture_details));
-	vars->textures->texture_default->path_to_texture = "./textures/metal264px.xpm";
-	vars->textures->texture_default->img_ptr = mlx_xpm_file_to_image(vars->mlx, vars->textures->texture_default->path_to_texture, &img_width, &img_height);
+	vars->textures->texture_default->path_to_texture
+		= "./textures/metal264px.xpm";
+	vars->textures->texture_default->img_ptr
+		= mlx_xpm_file_to_image(vars->mlx,
+			vars->textures->texture_default->path_to_texture,
+			&img_width, &img_height);
 	if (vars->textures->texture_default->img_ptr == NULL)
-        return (-1);
-    vars->textures->texture_default->texture_width = img_width;
-    vars->textures->texture_default->texture_height = img_height;
-    vars->textures->texture_default->texture_data = mlx_get_data_addr(vars->textures->texture_default->img_ptr, &size, &size_line, &endian);
+		return (-1);
+	vars->textures->texture_default->texture_width = img_width;
+	vars->textures->texture_default->texture_height = img_height;
+	vars->textures->texture_default->texture_data
+		= mlx_get_data_addr(vars->textures->texture_default->img_ptr, &size,
+			&size_line, &endian);
 	vars->textures->texture_north = vars->textures->texture_default;
 	vars->textures->texture_south = vars->textures->texture_default;
 	vars->textures->texture_east = vars->textures->texture_default;
@@ -45,12 +64,11 @@ int init_default_textures(t_vars *vars)
 	return (0);
 }
 
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_vars vars;
-	t_errors errors;
-	t_utils utils;
+	t_vars		vars;
+	t_errors	errors;
+	t_utils		utils;
 
 	if (argc != 2)
 		return (-1);
@@ -74,7 +92,7 @@ int main(int argc, char **argv)
 	if (errors.error1 == 1 || errors.error2 == 1
 		|| errors.error3 == 1 || errors.error4 == 1)
 		return (print_error(&errors, &vars));
-	parse_player(&vars);
+	get_player_infos(&vars);
 	init_window(&vars);
 	return (0);
 }

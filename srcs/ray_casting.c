@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:16 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:39:03 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:19:40 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,20 @@ int	ray_casting(t_vars *vars)
 	int		i;
 	double	old_x;
 	double	old_y;
-	double	angle;
-	double	base_angle;
 
-	base_angle = PI / 6;
-	angle = (PI / 3 / SCREEN_WIDTH) * -1;
 	i = 0;
-	old_x = vars->player->dir_x * cos(base_angle)
-		- vars->player->dir_y * sin(base_angle);
-	old_y = vars->player->dir_x * sin(base_angle)
-		+ vars->player->dir_y * cos(base_angle);
+	old_x = vars->player->dir_x * cos(vars->base_angle)
+		- vars->player->dir_y * sin(vars->base_angle);
+	old_y = vars->player->dir_x * sin(vars->base_angle)
+		+ vars->player->dir_y * cos(vars->base_angle);
 	while (i < SCREEN_WIDTH)
 	{
 		ray.nb = i;
-		ray.dir_x = old_x * cos(angle) - old_y * sin(angle);
-		ray.dir_y = old_x * sin(angle) + old_y * cos(angle);
+		ray.dir_x = old_x * cos(vars->angle) - old_y * sin(vars->angle);
+		ray.dir_y = old_x * sin(vars->angle) + old_y * cos(vars->angle);
 		ray.pos_x = vars->player->pos_x;
 		ray.pos_y = vars->player->pos_y;
-		impact_distance(&ray, vars, base_angle + angle * ray.nb);
+		impact_distance(&ray, vars, vars->base_angle + vars->angle * ray.nb);
 		old_x = ray.dir_x;
 		old_y = ray.dir_y;
 		render_column(vars, &ray);
@@ -50,83 +46,35 @@ int	is_in_map(t_vars *vars, double pos_x, double pos_y)
 		&& pos_y < vars->map_height);
 }
 
+void	increase_ray_distance(t_ray *ray, t_vars *vars)
+{
+	vars->actual_pos_x += ray->dir_x * 0.005;
+	vars->actual_pos_y += ray->dir_y * 0.005;
+	ray->hit_x = vars->actual_pos_x;
+	ray->hit_y = vars->actual_pos_y;
+}
+
 void	impact_distance(t_ray *ray, t_vars *vars, double angle)
 {
-	double	actual_pos_x;
-	double	actual_pos_y;
-	double	dist_n;
-	double	dist_s;
-	double	dist_e;
-	double	dist_w;
-
-	actual_pos_x = ray->pos_x;
-	actual_pos_y = ray->pos_y;
-	while (is_in_map(vars, actual_pos_x, actual_pos_y))
+	vars->actual_pos_x = ray->pos_x;
+	vars->actual_pos_y = ray->pos_y;
+	while (is_in_map(vars, vars->actual_pos_x, vars->actual_pos_y))
 	{
-		ray->hit_x = actual_pos_x;
-		ray->hit_y = actual_pos_y;
-		if (vars->map[(int)actual_pos_y][(int)actual_pos_x] == '1')
+		ray->hit_x = vars->actual_pos_x;
+		ray->hit_y = vars->actual_pos_y;
+		if (vars->map[(int)vars->actual_pos_y][(int)vars->actual_pos_x] == '1')
 		{
-			dist_n = fmod(actual_pos_y, 1.0);
-			dist_s = 1 - fmod(actual_pos_y, 1.0);
-			dist_w = fmod(actual_pos_x, 1.0);
-			dist_e = 1 - fmod(actual_pos_x, 1.0);
-			if (dist_n <= dist_s && dist_n <= dist_w && dist_n <= dist_e)
-			{
-				ray->wall_orientation = 'N';
-				if (vars->map[(int)actual_pos_y - 1][(int)actual_pos_x] == '1')
-				{
-					if (ray->dir_x > 0)
-						ray->wall_orientation = 'W';
-					else
-						ray->wall_orientation = 'E';
-				}
-			}
-			else if (dist_s <= dist_n && dist_s <= dist_w && dist_s <= dist_e)
-			{
-				ray->wall_orientation = 'S';
-				if (vars->map[(int)actual_pos_y + 1][(int)actual_pos_x] == '1')
-				{
-					if (ray->dir_x > 0)
-						ray->wall_orientation = 'W';
-					else
-						ray->wall_orientation = 'E';
-				}
-			}
-			else if (dist_e <= dist_s && dist_e <= dist_n && dist_e <= dist_w)
-			{
-				ray->wall_orientation = 'E';
-				if (vars->map[(int)actual_pos_y][(int)actual_pos_x + 1] == '1')
-				{
-					if (ray->dir_y > 0)
-						ray->wall_orientation = 'N';
-					else
-						ray->wall_orientation = 'S';
-				}
-			}
-			else
-			{
-				ray->wall_orientation = 'W';
-				if (vars->map[(int)actual_pos_y][(int)actual_pos_x - 1] == '1')
-				{
-					if (ray->dir_y > 0)
-						ray->wall_orientation = 'N';
-					else
-						ray->wall_orientation = 'S';
-				}
-			}
-			ray->distance = sqrt(fabs(actual_pos_x - ray->pos_x)
-					* fabs(actual_pos_x - ray->pos_x)
-					+ fabs(actual_pos_y - ray->pos_y)
-					* fabs(actual_pos_y - ray->pos_y)) * cos(angle);
+			check_for_north_orientation(vars, ray);
+			check_for_south_orientation(vars, ray);
+			check_for_east_orientation(vars, ray);
+			check_for_west_orientation(vars, ray);
+			ray->distance = sqrt(fabs(vars->actual_pos_x - ray->pos_x)
+					* fabs(vars->actual_pos_x - ray->pos_x)
+					+ fabs(vars->actual_pos_y - ray->pos_y)
+					* fabs(vars->actual_pos_y - ray->pos_y)) * cos(angle);
 			return ;
 		}
 		else
-		{
-			actual_pos_x += ray->dir_x * 0.005;
-			actual_pos_y += ray->dir_y * 0.005;
-			ray->hit_x = actual_pos_x;
-			ray->hit_y = actual_pos_y;
-		}
+			increase_ray_distance(ray, vars);
 	}
 }

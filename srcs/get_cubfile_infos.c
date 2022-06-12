@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:22:32 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:23:44 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:27:51 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ bool	check_first_char(t_vars *vars, t_utils *utils)
 			|| vars->c == 'E' || vars->c == 'W') && utils->i == 0)
 		return (true);
 	return (false);
+}
+
+int	check_in_map(t_vars *vars, t_utils *utils)
+{
+	if (vars->c == '1' && utils->i == 0)
+	{
+		vars->in_map = 1;
+		return (1);
+	}
+	return (0);
 }
 
 char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
@@ -35,11 +45,8 @@ char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 			break ;
 		if (utils->i == 0)
 			utils->is_info = check_first_char(vars, utils);
-		if (vars->c == '1' && utils->i == 0)
-		{
-			vars->in_map = 1;
+		if (check_in_map(vars, utils) == 1)
 			return (NULL);
-		}
 		if (utils->is_info)
 			str[utils->j++] = vars->c;
 		utils->i++;
@@ -95,13 +102,13 @@ bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils)
 				|| ft_strncmp(tmp[0], "WE", 2) == 0) && tmp[1])
 		{
 			if (ft_strncmp(tmp[0], "NO", 2) == 0)
-				parse_texture(vars, tmp[1], 'N');
+				parse_texture(vars, tmp[1], 'N', utils);
 			else if (ft_strncmp(tmp[0], "SO", 2) == 0)
-				parse_texture(vars, tmp[1], 'S');
+				parse_texture(vars, tmp[1], 'S', utils);
 			else if (ft_strncmp(tmp[0], "EA", 2) == 0)
-				parse_texture(vars, tmp[1], 'E');
+				parse_texture(vars, tmp[1], 'E', utils);
 			else
-				parse_texture(vars, tmp[1], 'W');
+				parse_texture(vars, tmp[1], 'W', utils);
 		}
 	}
 	free_tab(tmp);

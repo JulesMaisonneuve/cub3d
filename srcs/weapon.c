@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:07:29 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:07:30 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:33:29 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	weapon_to_window(t_vars *vars)
 {
 	int		img_width;
 	int		img_height;
-	char	*weapon_img;
 	int		bits_per_pixel;
 	int		endian;
 	int		size_line;
@@ -53,9 +52,9 @@ int	weapon_to_window(t_vars *vars)
 			&img_width, &img_height);
 	if (!vars->weapon)
 		return (-1);
-	weapon_img = mlx_get_data_addr(vars->weapon, &bits_per_pixel, &size_line,
-			&endian);
-	draw_weapon(vars, img_width, img_height, weapon_img);
+	vars->weapon_img = mlx_get_data_addr(vars->weapon, &bits_per_pixel,
+			&size_line, &endian);
+	draw_weapon(vars, img_width, img_height, vars->weapon_img);
 	vars->is_fire = false;
 	mlx_destroy_image(vars->mlx, vars->weapon);
 	return (0);

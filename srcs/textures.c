@@ -6,17 +6,15 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:29 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:14:35 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:29:46 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cubed.h"
 
-int	parse_texture(t_vars *vars, char *texture_path, char orientation)
+int	parse_texture(t_vars *vars, char *texture_path, char orientation,
+	t_utils *utils)
 {
-	int					size_line;
-	int					endian;
-	int					size;
 	int					img_height;
 	int					img_width;
 	t_texture_details	*texture_details;
@@ -29,7 +27,7 @@ int	parse_texture(t_vars *vars, char *texture_path, char orientation)
 	texture_details->texture_width = img_width;
 	texture_details->texture_height = img_height;
 	texture_details->texture_data = mlx_get_data_addr(texture_details->img_ptr,
-			&size, &size_line, &endian);
+			&(utils->bits_per_pixel), &(utils->size_line), &(utils->endian));
 	if (orientation == 'N')
 		vars->textures->texture_north = texture_details;
 	else if (orientation == 'S')

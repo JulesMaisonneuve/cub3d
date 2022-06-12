@@ -6,63 +6,11 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:27:51 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:31:45 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:41:38 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cubed.h"
-
-void	init_vars(t_vars *vars)
-{
-	vars->p = 0;
-	vars->map_width = 0;
-	vars->map_height = 1;
-	vars->actual_col_count = 0;
-	vars->nb_ray = SCREEN_WIDTH;
-	vars->line_offset = -1;
-	vars->player = NULL;
-	vars->is_fire = false;
-	vars->in_map = 0;
-}
-
-void	init_errors(t_errors *errors)
-{
-	errors->error1 = 0;
-	errors->error2 = 0;
-	errors->error3 = 0;
-	errors->error4 = 0;
-	errors->error5 = 0;
-}
-
-int	init_default_textures(t_vars *vars)
-{
-	int	size_line;
-	int	endian;
-	int	size;
-	int	img_height;
-	int	img_width;
-
-	vars->textures = malloc(sizeof(t_textures));
-	vars->textures->texture_default = malloc(sizeof(t_texture_details));
-	vars->textures->texture_default->path_to_texture
-		= "./textures/metal264px.xpm";
-	vars->textures->texture_default->img_ptr
-		= mlx_xpm_file_to_image(vars->mlx,
-			vars->textures->texture_default->path_to_texture,
-			&img_width, &img_height);
-	if (vars->textures->texture_default->img_ptr == NULL)
-		return (-1);
-	vars->textures->texture_default->texture_width = img_width;
-	vars->textures->texture_default->texture_height = img_height;
-	vars->textures->texture_default->texture_data
-		= mlx_get_data_addr(vars->textures->texture_default->img_ptr, &size,
-			&size_line, &endian);
-	vars->textures->texture_north = vars->textures->texture_default;
-	vars->textures->texture_south = vars->textures->texture_default;
-	vars->textures->texture_east = vars->textures->texture_default;
-	vars->textures->texture_west = vars->textures->texture_default;
-	return (0);
-}
 
 int	main(int argc, char **argv)
 {
@@ -77,12 +25,8 @@ int	main(int argc, char **argv)
 		return (-1);
 	init_vars(&vars);
 	init_errors(&errors);
-	vars.fd = open(vars.path, O_RDONLY);
-	if (vars.fd < 0)
+	if (fd_mlx_init(&vars) == -1)
 		return (-1);
-	vars.mlx = mlx_init();
-	if (!vars.mlx)
-		return (free_map(&vars));
 	init_default_textures(&vars);
 	is_valid_map(vars.fd, &vars, &errors, &utils);
 	close(vars.fd);

@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:21:02 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:18:45 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/11 04:56:31 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,16 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 		dest[size - 1] = '\0';
 	}
 	return (srclen);
+}
+
+int	ft_strchrr(const char *str, int c)
+{
+	char	ch;
+
+	ch = c;
+	while (*str == ch && *str)
+		str++;
+	if (*str != ch && *str != '\0')
+		return (0);
+	return (1);
 }

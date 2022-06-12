@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 16:37:33 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 04:27:41 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 04:38:31 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ int	free_map(t_vars *vars)
 	int	i;
 
 	i = -1;
-	while (++i < vars->map_height)
-		free(vars->map[i]);
-	free(vars->map);
+	if (vars->map != NULL)
+	{
+		while (++i < vars->map_height)
+			free(vars->map[i]);
+		free(vars->map);
+	}
 	if (vars->player)
 		free(vars->player);
 	free_textures(vars);
-	return (0);
+	return (-1);
 }

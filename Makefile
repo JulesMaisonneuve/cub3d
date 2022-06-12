@@ -1,21 +1,25 @@
 NAME = cub3d
 
 SRCS = window.c \
+		init.c \
 		main.c \
 		../getnl/get_next_line_utils.c \
 		../getnl/get_next_line.c \
 		check_errors.c \
+		print_error.c \
 		free_map.c \
 		check_file.c \
-		ft_strchrr.c \
+		check_map.c \
 		get_player_infos.c \
 		get_cubfile_infos.c \
 		draw_column.c \
 		key_hooks.c \
+		set_wall_orientation.c \
 		ray_casting.c \
 		textures.c \
 		ft_split.c \
 		cub3d_utils.c \
+		cub3d_utils2.c \
 		trgb.c \
 		player_movements.c \
 		camera_rotation.c \

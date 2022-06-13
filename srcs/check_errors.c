@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 20:14:11 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/11 22:04:50 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:06:02 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	check_error(t_vars *vars, t_errors *errors, t_utils *utils, int line_offset)
 	if (!vars->map)
 		return (0);
 	store_map(vars, utils, line_offset);
-	if (is_rectangular(vars, errors) == -1)
-		return (-1);
+	// if (is_rectangular(vars, errors) == -1)
+	// 	return (-1);
 	if (ft_strchrr(vars->map[0], '1') == 0
 		|| ft_strchrr(vars->map[vars->map_height - 1], '1') == 0)
 		errors->error1 = 1;

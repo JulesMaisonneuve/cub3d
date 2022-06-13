@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 04:44:08 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 04:51:42 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/12 05:23:54 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int					check_error(t_vars *vars, t_errors *errors, t_utils *utils,
 						int line_offset);
 int					print_error(t_errors *errors, t_vars *vars);
 int					free_map(t_vars *vars);
+void				free_textures(t_vars *vars);
 int					is_valid_file(t_vars *vars);
 void				get_player_infos(t_vars *vars);
 void				check_for_north_orientation(t_vars *vars, t_ray *ray);

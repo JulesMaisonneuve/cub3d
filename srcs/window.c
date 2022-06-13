@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:41 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 03:31:02 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/13 02:41:29 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	close_win(t_vars *vars)
 		&& vars->textures->texture_west->img_ptr
 		!= vars->textures->texture_default->img_ptr)
 		mlx_destroy_image(vars->mlx, vars->textures->texture_west->img_ptr);
-	mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->win != NULL)
+		mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	mlx_loop_end(vars->mlx);
 	free(vars->mlx);

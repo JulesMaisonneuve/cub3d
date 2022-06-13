@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 04:43:52 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 04:43:53 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/13 03:22:16 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	init_vars(t_vars *vars)
 	vars->in_map = 0;
 	vars->base_angle = PI / 6;
 	vars->angle = (PI / 3 / SCREEN_WIDTH) * -1;
+	vars->map = NULL;
+	vars->textures = NULL;
+	vars->win = NULL;
 }
 
 void	init_errors(t_errors *errors)

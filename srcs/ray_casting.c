@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:16 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 04:19:40 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 04:31:10 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ray_casting(t_vars *vars)
 
 int	is_in_map(t_vars *vars, double pos_x, double pos_y)
 {
-	return (pos_x >= 0 && pos_y >= 0 && pos_x < vars->map_width
+	return (pos_x >= 0 && pos_y >= 0 && pos_x < (int)ft_strlen(vars->map[(int)pos_y])
 		&& pos_y < vars->map_height);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 21:49:12 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 03:26:55 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 01:45:52 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	remove_white_space(char *str)
 		{
 			str[j++] = str[i];
 		}
+		else
+			str[j++] = '1';
 		i++;
 	}
 	str[j] = '\0';

@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:10 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/13 16:24:14 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 04:23:28 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ void	get_player_infos(t_vars *vars)
 	while (i < vars->map_height)
 	{
 		j = 0;
-		while (j < vars->map_width)
+		while (j < (int)ft_strlen(vars->map[i]))
 		{
 			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
 				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
 			{
 				vars->player->pos_x = j;
+				printf("vars player pos x: %lf\n", vars->player->pos_x);
 				vars->player->pos_y = i;
 				fill_player_infos(vars, i, j);
 				vars->map[i][j] = '0';

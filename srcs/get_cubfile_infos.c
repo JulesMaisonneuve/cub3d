@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:22:32 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 04:27:51 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 01:03:38 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 	{
 		if (vars->c == '\n')
 			break ;
+		else if (vars->c == ' ' && utils->is_info != true)
+			continue ;
 		if (utils->i == 0)
 			utils->is_info = check_first_char(vars, utils);
 		if (check_in_map(vars, utils) == 1)

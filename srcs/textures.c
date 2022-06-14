@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 01:32:29 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/13 02:29:39 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 05:42:34 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 int	parse_texture(t_vars *vars, char *texture_path, char orientation,
 	t_utils *utils)
 {
-	int					img_height;
-	int					img_width;
 	t_texture_details	*texture_details;
 
 	texture_details = malloc(sizeof(t_texture_details));
 	texture_details->img_ptr = mlx_xpm_file_to_image(vars->mlx, texture_path,
-			&img_width, &img_height);
+			&(texture_details->texture_width),
+			&(texture_details->texture_height));
 	if (texture_details->img_ptr == NULL)
 	{
 		free(texture_details);
 		return (-1);
 	}
-	texture_details->texture_width = img_width;
-	texture_details->texture_height = img_height;
 	texture_details->texture_data = mlx_get_data_addr(texture_details->img_ptr,
 			&(utils->bits_per_pixel), &(utils->size_line), &(utils->endian));
 	if (orientation == 'N')

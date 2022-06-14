@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:39:28 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/13 17:31:09 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 05:09:59 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	player_move_left(t_vars *vars)
 			+ vars->player->pos_x)] != '1')
 	{
 		vars->player->pos_x += (vars->player->dir_x * cos(PI / 2)
-			- vars->player->dir_y * sin(PI / 2)) * 0.040;
+				- vars->player->dir_y * sin(PI / 2)) * 0.040;
 		vars->player->pos_y += (vars->player->dir_x * sin(PI / 2)
-			+ vars->player->dir_y * cos(PI / 2)) * 0.040;
+				+ vars->player->dir_y * cos(PI / 2)) * 0.040;
 	}
 }
 
@@ -56,8 +56,8 @@ void	player_move_right(t_vars *vars)
 			+ vars->player->pos_x)] != '1')
 	{
 		vars->player->pos_x += (vars->player->dir_x * cos(PI / 2)
-			- vars->player->dir_y * sin(PI / 2)) * -0.040;
+				- vars->player->dir_y * sin(PI / 2)) * -0.040;
 		vars->player->pos_y += (vars->player->dir_x * sin(PI / 2)
-			+ vars->player->dir_y * cos(PI / 2)) * -0.040;
+				+ vars->player->dir_y * cos(PI / 2)) * -0.040;
 	}
 }

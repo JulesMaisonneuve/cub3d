@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 20:14:11 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/14 04:35:24 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/14 05:39:06 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors)
 {
-	int	difference;
-	bool longer;
-	int	i;
+	int		difference;
+	bool	longer;
+	int		i;
 
 	difference = 0;
 	longer = true;
 	i = 0;
 	if (utils->i + 1 != vars->map_height)
-		difference = (int)ft_strlen(vars->map[utils->i]) - (int)ft_strlen(vars->map[utils->i + 1]);
+		difference = (int)ft_strlen(vars->map[utils->i])
+			- (int)ft_strlen(vars->map[utils->i + 1]);
 	if (difference < 0)
 	{
 		longer = false;
@@ -34,7 +35,9 @@ int	line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors)
 		{
 			while (i < difference)
 			{
-				if (vars->map[utils->i][(int)ft_strlen(vars->map[utils->i + 1]) + i] != '1' && vars->map[utils->i][(int)ft_strlen(vars->map[utils->i + 1]) + i] != ' ')
+				if (vars->map[utils->i][(int)ft_strlen(vars->map[utils->i + 1])
+					+ i] != '1' && vars->map[utils->i]
+					[(int)ft_strlen(vars->map[utils->i + 1]) + i] != ' ')
 				{
 					errors->error1 = 1;
 					return (-1);
@@ -46,7 +49,9 @@ int	line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors)
 		{
 			while (i < difference)
 			{
-				if (vars->map[utils->i + 1][(int)ft_strlen(vars->map[utils->i]) + i] != '1' && vars->map[utils->i + 1][(int)ft_strlen(vars->map[utils->i]) + i] != ' ')
+				if (vars->map[utils->i + 1][(int)ft_strlen(vars->map[utils->i])
+					+ i] != '1' && vars->map[utils->i + 1]
+				[(int)ft_strlen(vars->map[utils->i]) + i] != ' ')
 				{
 					errors->error1 = 1;
 					return (-1);
@@ -58,84 +63,110 @@ int	line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors)
 	return (0);
 }
 
+int	check_first_line(t_vars *vars, t_utils *utils, t_errors *errors)
+{
+	errors->error1 = 1;
+	while (vars->map[utils->i][utils->j]
+		&& vars->map[utils->i][utils->j] == ' ')
+	{
+		if (utils->j > 0 && vars->map[utils->i][utils->j - 1]
+			!= '1' && vars->map[utils->i][utils->j - 1] != ' ')
+			return (-1);
+		else if (vars->map[utils->i][utils->j + 1]
+			&& vars->map[utils->i][utils->j + 1] != '1'
+			&& vars->map[utils->i][utils->j + 1] != ' ')
+			return (-1);
+		else if (vars->map[utils->i + 1][utils->j]
+			&& vars->map[utils->i + 1][utils->j] != '1'
+			&& vars->map[utils->i + 1][utils->j] != ' ')
+			return (-1);
+		utils->j++;
+	}
+	errors->error1 = 0;
+	return (0);
+}
+
+int	check_last_line(t_vars *vars, t_utils *utils, t_errors *errors)
+{
+	if (utils->j > 0 && vars->map[utils->i][utils->j - 1] != '1'
+		&& vars->map[utils->i][utils->j - 1] != ' ')
+	{
+		errors->error1 = 1;
+		return (-1);
+	}
+	else if (vars->map[utils->i][utils->j + 1]
+		&& vars->map[utils->i][utils->j + 1] != '1'
+		&& vars->map[utils->i][utils->j + 1] != ' ')
+	{
+		errors->error1 = 1;
+		return (-1);
+	}
+	else if (vars->map[utils->i - 1][utils->j]
+		&& vars->map[utils->i - 1][utils->j] != '1'
+		&& vars->map[utils->i - 1][utils->j] != ' ')
+	{
+		errors->error1 = 1;
+		return (-1);
+	}
+	return (0);
+}
+
+int	check_in_map_line(t_vars *vars, t_utils *utils, t_errors *errors)
+{
+	errors->error1 = 1;
+	if (utils->j > 0 && vars->map[utils->i][utils->j - 1] != '1'
+		&& vars->map[utils->i][utils->j - 1] != ' ')
+		return (-1);
+	else if (vars->map[utils->i][utils->j + 1]
+		&& vars->map[utils->i][utils->j + 1] != '1'
+		&& vars->map[utils->i][utils->j + 1] != ' ')
+		return (-1);
+	else if (vars->map[utils->i + 1][utils->j]
+		&& vars->map[utils->i + 1][utils->j] != '1'
+		&& vars->map[utils->i + 1][utils->j] != ' ')
+		return (-1);
+	else if (vars->map[utils->i - 1][utils->j] != '1'
+		&& vars->map[utils->i - 1][utils->j] != ' ')
+		return (-1);
+	errors->error1 = 0;
+	return (0);
+}
+
+int	handle_space(t_vars *vars, t_utils *utils, t_errors *errors)
+{
+	if (vars->map[utils->i][utils->j] == ' ')
+	{
+		if (utils->i == 0)
+		{
+			if (check_first_line(vars, utils, errors) == -1)
+				return (-1);
+		}
+		else if (utils->i + 1 == vars->map_height)
+		{
+			if (check_last_line(vars, utils, errors) == -1)
+				return (-1);
+		}
+		else
+		{
+			if (check_in_map_line(vars, utils, errors) == -1)
+				return (-1);
+		}
+	}
+	return (0);
+}
+
 int	is_map_closed(t_vars *vars, t_utils *utils, t_errors *errors)
 {
-	int j;
-
-	j = 0;
+	utils->j = 0;
 	utils->i = 0;
 	while (utils->i < vars->map_height)
 	{
-		j = 0;
-		while (vars->map[utils->i][j])
+		utils->j = 0;
+		while (vars->map[utils->i][utils->j])
 		{
-			if (vars->map[utils->i][j] == ' ')
-			{
-				if (utils->i == 0)
-				{
-					while (vars->map[utils->i][j] && vars->map[utils->i][j] == ' ')
-					{
-						if (j > 0 && vars->map[utils->i][j - 1] != '1' && vars->map[utils->i][j - 1] != ' ')
-						{
-							errors->error1 = 1;
-							return (0);
-						}
-						else if (vars->map[utils->i][j + 1] && vars->map[utils->i][j + 1] != '1' && vars->map[utils->i][j + 1] != ' ')
-						{
-							errors->error1 = 1;
-							return (0);
-						}
-						else if (vars->map[utils->i + 1][j] && vars->map[utils->i + 1][j] != '1' && vars->map[utils->i + 1][j] != ' ')
-						{
-							errors->error1 = 1;
-							return (0);
-						}
-						j++;
-					}
-				}
-				else if (utils->i + 1 == vars->map_height)
-				{
-					if (j > 0 && vars->map[utils->i][j - 1] != '1' && vars->map[utils->i][j - 1] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-					else if (vars->map[utils->i][j + 1] && vars->map[utils->i][j + 1] != '1' && vars->map[utils->i][j + 1] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-					else if (vars->map[utils->i - 1][j] && vars->map[utils->i - 1][j] != '1' && vars->map[utils->i - 1][j] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-				}
-				else
-				{
-					if (j > 0 && vars->map[utils->i][j - 1] != '1' && vars->map[utils->i][j - 1] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-					else if (vars->map[utils->i][j + 1] && vars->map[utils->i][j + 1] != '1' && vars->map[utils->i][j + 1] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-					else if (vars->map[utils->i + 1][j] && vars->map[utils->i + 1][j] != '1' && vars->map[utils->i + 1][j] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-					else if (vars->map[utils->i - 1][j] != '1' && vars->map[utils->i - 1][j] != ' ')
-					{
-						errors->error1 = 1;
-						return (0);
-					}
-				}
-			}
-			j++;
+			if (handle_space(vars, utils, errors) == -1)
+				return (0);
+			utils->j++;
 		}
 		remove_white_space(vars->map[utils->i]);
 		if (line_size_difference(vars, utils, errors) == -1)

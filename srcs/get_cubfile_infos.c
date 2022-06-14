@@ -34,13 +34,23 @@ char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 {
 	char	str[4096];
 	char	**tmp;
+	int		ret;
 
 	utils->is_info = false;
 	utils->i = 0;
 	utils->j = 0;
 	tmp = NULL;
-	while (read(fd, &vars->c, 1) == 1)
+	while (1)
 	{
+		ret = read(fd, &vars->c, 1);
+		if (ret == 0 && vars->in_map == 0)
+		{
+			vars->in_map = 2;
+			printf("Error: reached EOF\n");
+			break ;
+		}
+		// else if (ret == -1)
+		// 	break ;
 		if (vars->c == '\n')
 			break ;
 		else if (vars->c == ' ' && utils->is_info != true)
@@ -98,16 +108,16 @@ bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils)
 	{
 		if ((**tmp == 'F' || **tmp == 'C') && tmp[0][1] == '\0')
 			get_floor_ceiling_color(vars, tmp, utils);
-		else if ((ft_strncmp(tmp[0], "NO", 2) == 0
-				|| ft_strncmp(tmp[0], "SO", 2) == 0
-				|| ft_strncmp(tmp[0], "EA", 2) == 0
-				|| ft_strncmp(tmp[0], "WE", 2) == 0) && tmp[1])
+		else if ((ft_strncmp(tmp[0], "NO", 3) == 0
+				|| ft_strncmp(tmp[0], "SO", 3) == 0
+				|| ft_strncmp(tmp[0], "EA", 3) == 0
+				|| ft_strncmp(tmp[0], "WE", 3) == 0) && tmp[1])
 		{
-			if (ft_strncmp(tmp[0], "NO", 2) == 0)
+			if (ft_strncmp(tmp[0], "NO", 3) == 0)
 				parse_texture(vars, tmp[1], 'N', utils);
-			else if (ft_strncmp(tmp[0], "SO", 2) == 0)
+			else if (ft_strncmp(tmp[0], "SO", 3) == 0)
 				parse_texture(vars, tmp[1], 'S', utils);
-			else if (ft_strncmp(tmp[0], "EA", 2) == 0)
+			else if (ft_strncmp(tmp[0], "EA", 3) == 0)
 				parse_texture(vars, tmp[1], 'E', utils);
 			else
 				parse_texture(vars, tmp[1], 'W', utils);

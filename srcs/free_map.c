@@ -14,7 +14,7 @@
 
 void	free_textures(t_vars *vars)
 {
-	if (vars->textures)
+	if (vars->textures != NULL)
 	{
 		if (vars->textures->texture_default)
 			free(vars->textures->texture_default);
@@ -45,7 +45,7 @@ int	free_map(t_vars *vars)
 			free(vars->map[i]);
 		free(vars->map);
 	}
-	if (vars->player)
+	if (vars->player != NULL)
 		free(vars->player);
 	free_textures(vars);
 	return (-1);

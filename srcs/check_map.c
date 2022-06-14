@@ -44,8 +44,7 @@ int	check_current_line(t_vars *vars)
 	}
 	return (0);
 }
-
-void	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
+int	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
 {
 	int	error;
 
@@ -55,6 +54,8 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
 	{
 		get_cubfile_infos(vars, fd, utils);
 		vars->line_offset++;
+		if (vars->in_map == 2)
+			break ;
 	}
 	if (vars->in_map == 1)
 		vars->actual_col_count++;
@@ -63,6 +64,7 @@ void	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
 		check_comps(vars, errors);
 		error = check_current_line(vars);
 		if (error == 1)
-			break ;
+			return (-1);
 	}
+	return (0);
 }

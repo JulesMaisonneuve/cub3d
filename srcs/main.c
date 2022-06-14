@@ -28,7 +28,11 @@ int	main(int argc, char **argv)
 	if (fd_mlx_init(&vars) == -1)
 		return (-1);
 	init_default_textures(&vars);
-	is_valid_map(vars.fd, &vars, &errors, &utils);
+	if (is_valid_map(vars.fd, &vars, &errors, &utils) == -1)
+	{
+		close(vars.fd);
+		return (print_error(&errors, &vars));
+	}
 	close(vars.fd);
 	if (errors.error5 == 1)
 		return (close_win(&vars));

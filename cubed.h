@@ -90,7 +90,7 @@ typedef struct s_vars {
 	char		*weapon_img;
 	char		*weapon_path;
 	void		*weapon;
-	bool		in_map;
+	int			in_map;
 	char		*img_data;
 	bool		is_fire;
 	int			col_height;
@@ -130,7 +130,7 @@ void				init_errors(t_errors *errors);
 int					init_default_textures(t_vars *vars);
 int					fd_mlx_init(t_vars *vars);
 void				remove_white_space(char *str);
-void				is_valid_map(int fd, t_vars *vars, t_errors *errors,
+int					is_valid_map(int fd, t_vars *vars, t_errors *errors,
 						t_utils *utils);
 int					is_rectangular(t_vars *vars, t_errors *errors);
 int					check_error(t_vars *vars, t_errors *errors, t_utils *utils,

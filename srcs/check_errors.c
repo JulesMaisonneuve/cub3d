@@ -117,15 +117,15 @@ int	check_in_map_line(t_vars *vars, t_utils *utils, t_errors *errors)
 	if (utils->j > 0 && vars->map[utils->i][utils->j - 1] != '1'
 		&& vars->map[utils->i][utils->j - 1] != ' ')
 		return (-1);
-	else if (vars->map[utils->i][utils->j + 1]
+	else if (vars->map[utils->i][utils->j + 1] != '\0'
 		&& vars->map[utils->i][utils->j + 1] != '1'
 		&& vars->map[utils->i][utils->j + 1] != ' ')
 		return (-1);
-	else if (vars->map[utils->i + 1][utils->j]
+	else if (vars->map[utils->i + 1][utils->j] != '\0'
 		&& vars->map[utils->i + 1][utils->j] != '1'
 		&& vars->map[utils->i + 1][utils->j] != ' ')
 		return (-1);
-	else if (vars->map[utils->i - 1][utils->j] != '1'
+	else if (vars->map[utils->i + 1][utils->j] != '\0' && vars->map[utils->i - 1][utils->j] != '1'
 		&& vars->map[utils->i - 1][utils->j] != ' ')
 		return (-1);
 	errors->error1 = 0;
@@ -169,6 +169,11 @@ int	is_map_closed(t_vars *vars, t_utils *utils, t_errors *errors)
 			utils->j++;
 		}
 		remove_white_space(vars->map[utils->i]);
+		if (vars->map[utils->i][(int)ft_strlen(vars->map[utils->i]) - 1] != '1' && vars->map[utils->i][0] != '\0')
+		{
+			printf("%c\n", vars->map[utils->i][(int)ft_strlen(vars->map[utils->i]) - 1]);
+			return (0);
+		}
 		if (line_size_difference(vars, utils, errors) == -1)
 			return (0);
 		utils->i++;
@@ -195,11 +200,11 @@ int	store_map(t_vars *vars, t_utils *utils, int line_offset, t_errors *errors)
 	while (utils->i < vars->map_height)
 	{
 		get_next_line(vars->fd, &vars->map[utils->i]);
-		if (vars->map[utils->i][0] == '\0' && utils->i + 1 != vars->map_height)
-		{
-			printf("Error: newline only accepted at end of file\n");
-			return (-1);
-		}
+		// if (vars->map[utils->i][0] == '\0' && utils->i + 1 != vars->map_height)
+		// {
+		// 	printf("Error: newline only accepted at end of file\n");
+		// 	return (-1);
+		// }
 		utils->i++;
 		line_offset++;
 	}

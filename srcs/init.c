@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 04:43:52 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/14 02:10:21 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 02:54:25 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	init_errors(t_errors *errors)
 	errors->error2 = 0;
 	errors->error3 = 0;
 	errors->error4 = 0;
-	errors->error5 = 0;
 }
 
 int	init_default_textures(t_vars *vars)

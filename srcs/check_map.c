@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 22:05:04 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/14 03:54:38 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 02:45:25 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	check_current_line(t_vars *vars)
 	}
 	return (0);
 }
+
 int	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
 {
 	int	error;
@@ -52,7 +53,7 @@ int	is_valid_map(int fd, t_vars *vars, t_errors *errors, t_utils *utils)
 	vars->in_map = 0;
 	while (vars->in_map != 1)
 	{
-		get_cubfile_infos(vars, fd, utils);
+		get_cubfile_infos(vars, fd, utils, errors);
 		vars->line_offset++;
 		if (vars->in_map == 2)
 			break ;

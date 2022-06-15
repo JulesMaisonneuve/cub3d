@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 22:08:59 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/13 03:24:31 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 01:10:47 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ int	print_error(t_errors *errors, t_vars *vars)
 	}
 	else if (errors->error3 == 1)
 	{
-		printf("Error\nMap must contain at least and only \
-			one starting position\n");
+		printf("Error\nMap must contain at least and only one starting pos\n");
 		close_win(vars);
 		return (-1);
 	}
 	else if (errors->error4 == 1)
 	{
-		printf("Error\nThe map must be rectangular\n");
+		printf("Error\nInvalid texture\n");
 		close_win(vars);
 		return (-1);
 	}

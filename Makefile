@@ -23,7 +23,10 @@ SRCS = window.c \
 		trgb.c \
 		player_movements.c \
 		camera_rotation.c \
-		weapon.c
+		weapon.c \
+		read_line_infos.c \
+		handle_space.c \
+		line_size_difference.c
 
 OBJS = $(addprefix srcs/,$(SRCS:.c=.o))
 

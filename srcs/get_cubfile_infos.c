@@ -6,68 +6,11 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:22:32 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/14 01:03:38 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 03:15:17 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cubed.h"
-
-bool	check_first_char(t_vars *vars, t_utils *utils)
-{
-	if ((vars->c == 'C' || vars->c == 'F' || vars->c == 'N' || vars->c == 'S'
-			|| vars->c == 'E' || vars->c == 'W') && utils->i == 0)
-		return (true);
-	return (false);
-}
-
-int	check_in_map(t_vars *vars, t_utils *utils)
-{
-	if (vars->c == '1' && utils->i == 0)
-	{
-		vars->in_map = 1;
-		return (1);
-	}
-	return (0);
-}
-
-char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
-{
-	char	str[4096];
-	char	**tmp;
-	int		ret;
-
-	utils->is_info = false;
-	utils->i = 0;
-	utils->j = 0;
-	tmp = NULL;
-	while (1)
-	{
-		ret = read(fd, &vars->c, 1);
-		if (ret == 0 && vars->in_map == 0)
-		{
-			vars->in_map = 2;
-			printf("Error: reached EOF\n");
-			break ;
-		}
-		// else if (ret == -1)
-		// 	break ;
-		if (vars->c == '\n')
-			break ;
-		else if (vars->c == ' ' && utils->is_info != true)
-			continue ;
-		if (utils->i == 0)
-			utils->is_info = check_first_char(vars, utils);
-		if (check_in_map(vars, utils) == 1)
-			return (NULL);
-		if (utils->is_info)
-			str[utils->j++] = vars->c;
-		utils->i++;
-	}
-	str[utils->j] = '\0';
-	if (*str)
-		tmp = ft_split(str, " ,");
-	return (tmp);
-}
 
 void	get_floor_ceiling_color(t_vars *vars, char **tmp, t_utils *utils)
 {
@@ -98,7 +41,33 @@ void	get_floor_ceiling_color(t_vars *vars, char **tmp, t_utils *utils)
 		vars->ceiling_color = color;
 }
 
-bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils)
+void	fill_texture_infos(t_vars *vars, char **tmp, t_utils *utils,
+	t_errors *errors)
+{
+	if (ft_strncmp(tmp[0], "NO", 3) == 0)
+	{
+		if (parse_texture(vars, tmp[1], 'N', utils) == -1)
+			errors->error4 = 1;
+	}
+	else if (ft_strncmp(tmp[0], "SO", 3) == 0)
+	{
+		if (parse_texture(vars, tmp[1], 'S', utils) == -1)
+			errors->error4 = 1;
+	}
+	else if (ft_strncmp(tmp[0], "EA", 3) == 0)
+	{
+		if (parse_texture(vars, tmp[1], 'E', utils) == -1)
+			errors->error4 = 1;
+	}
+	else
+	{
+		if (parse_texture(vars, tmp[1], 'W', utils) == -1)
+			errors->error4 = 1;
+	}
+}
+
+bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils,
+	t_errors *errors)
 {
 	char	**tmp;
 
@@ -112,16 +81,7 @@ bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils)
 				|| ft_strncmp(tmp[0], "SO", 3) == 0
 				|| ft_strncmp(tmp[0], "EA", 3) == 0
 				|| ft_strncmp(tmp[0], "WE", 3) == 0) && tmp[1])
-		{
-			if (ft_strncmp(tmp[0], "NO", 3) == 0)
-				parse_texture(vars, tmp[1], 'N', utils);
-			else if (ft_strncmp(tmp[0], "SO", 3) == 0)
-				parse_texture(vars, tmp[1], 'S', utils);
-			else if (ft_strncmp(tmp[0], "EA", 3) == 0)
-				parse_texture(vars, tmp[1], 'E', utils);
-			else
-				parse_texture(vars, tmp[1], 'W', utils);
-		}
+			fill_texture_infos(vars, tmp, utils, errors);
 	}
 	free_tab(tmp);
 	return (0);

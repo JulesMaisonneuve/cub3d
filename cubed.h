@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 04:44:08 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/12 05:23:54 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 03:39:44 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct s_errors {
 	int	error2;
 	int	error3;
 	int	error4;
-	int	error5;
 }				t_errors;
 
 typedef struct s_ray {
@@ -136,8 +135,11 @@ int					is_rectangular(t_vars *vars, t_errors *errors);
 int					check_error(t_vars *vars, t_errors *errors, t_utils *utils,
 						int line_offset);
 int					print_error(t_errors *errors, t_vars *vars);
+int					handle_space(t_vars *vars, t_utils *utils, t_errors *errors);
+int					line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors);
 int					free_map(t_vars *vars);
 void				free_textures(t_vars *vars);
+char				**read_line_infos(t_vars *vars, int fd, t_utils *utils);
 int					is_valid_file(t_vars *vars);
 void				get_player_infos(t_vars *vars);
 void				check_for_north_orientation(t_vars *vars, t_ray *ray);
@@ -165,7 +167,7 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 char				**ft_free_words(char **tab);
 char				**ft_split(char const *s, char *separators);
 int					weapon_to_window(t_vars *vars);
-bool				get_cubfile_infos(t_vars *vars, int fd, t_utils *utils);
+bool				get_cubfile_infos(t_vars *vars, int fd, t_utils *utils, t_errors *errors);
 void				draw_pixel_img(t_vars *vars, int color, int x, int y);
 void				player_move_forward(t_vars *vars);
 void				player_move_backward(t_vars *vars);

@@ -15,23 +15,23 @@
 int	check_first_line(t_vars *vars, t_utils *utils, t_errors *errors)
 {
 	errors->error1 = 1;
-	while (vars->map[utils->i][utils->j]
+	if (vars->map[utils->i][utils->j]
 		&& vars->map[utils->i][utils->j] == ' ')
 	{
 		if (utils->j > 0 && vars->map[utils->i][utils->j - 1]
 			!= '1' && vars->map[utils->i][utils->j - 1] != ' ')
-		{
 			return (-1);
-		}
-		else if (vars->map[utils->i][utils->j + 1] != '\0'
+		if (utils->j + 1 <= (int)ft_strlen(vars->map[utils->i]) - 1
+			&& vars->map[utils->i][utils->j + 1] != '\n'
 			&& vars->map[utils->i][utils->j + 1] != '1'
 			&& vars->map[utils->i][utils->j + 1] != ' ')
 			return (-1);
-		else if (vars->map[utils->i + 1][utils->j] != '\0'
+		if ((int)ft_strlen(vars->map[utils->i])
+			<= (int)ft_strlen(vars->map[utils->i + 1])
+			&& vars->map[utils->i + 1][utils->j] != '\n'
 			&& vars->map[utils->i + 1][utils->j] != '1'
 			&& vars->map[utils->i + 1][utils->j] != ' ')
 			return (-1);
-		utils->j++;
 	}
 	errors->error1 = 0;
 	return (0);
@@ -45,14 +45,16 @@ int	check_last_line(t_vars *vars, t_utils *utils, t_errors *errors)
 		errors->error1 = 1;
 		return (-1);
 	}
-	else if (vars->map[utils->i][utils->j + 1] != '\0'
+	if (utils->j + 1 <= (int)ft_strlen(vars->map[utils->i])
+		&& vars->map[utils->i][utils->j + 1] != '\0'
 		&& vars->map[utils->i][utils->j + 1] != '1'
 		&& vars->map[utils->i][utils->j + 1] != ' ')
 	{
 		errors->error1 = 1;
 		return (-1);
 	}
-	else if (vars->map[utils->i - 1][utils->j] != '\0'
+	if ((int)ft_strlen(vars->map[utils->i - 1]) >= utils->j
+		&& vars->map[utils->i - 1][utils->j] != '\0'
 		&& vars->map[utils->i - 1][utils->j] != '1'
 		&& vars->map[utils->i - 1][utils->j] != ' ')
 	{

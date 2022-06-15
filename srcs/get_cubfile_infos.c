@@ -12,28 +12,28 @@
 
 #include "../cubed.h"
 
-void	get_floor_ceiling_color(t_vars *vars, char **tmp, t_utils *utils)
+void	init_rgb(t_utils *utils)
 {
-	int	color;
-
 	utils->r = 0;
 	utils->g = 0;
 	utils->b = 0;
-	if (tmp[1])
-	{
-		if (is_digit(tmp[1]))
+}
+
+void	get_floor_ceiling_color(t_vars *vars, char **tmp, t_utils *utils,
+	t_errors *errors)
+{
+	int	color;
+
+	init_rgb(utils);
+	if (tmp[1] && is_digit(tmp[1]))
 			utils->r = ft_atoi(tmp[1]);
-	}
-	if (tmp[2])
-	{
-		if (is_digit(tmp[2]))
+	if (tmp[2] && is_digit(tmp[2]))
 			utils->g = ft_atoi(tmp[2]);
-	}
-	if (tmp[3])
-	{
-		if (is_digit(tmp[3]))
+	if (tmp[3] && is_digit(tmp[3]))
 			utils->b = ft_atoi(tmp[3]);
-	}
+	if ((utils->r > 255 || utils->r < 0) || (utils->g > 255 || utils->g < 0)
+		|| (utils->b > 255 || utils->b < 0))
+		errors->error4 = 1;
 	color = create_trgb(0, utils->r, utils->g, utils->b);
 	if (**tmp == 'F')
 		vars->floor_color = color;
@@ -76,7 +76,7 @@ bool	get_cubfile_infos(t_vars *vars, int fd, t_utils *utils,
 	if (tmp)
 	{
 		if ((**tmp == 'F' || **tmp == 'C') && tmp[0][1] == '\0')
-			get_floor_ceiling_color(vars, tmp, utils);
+			get_floor_ceiling_color(vars, tmp, utils, errors);
 		else if ((ft_strncmp(tmp[0], "NO", 3) == 0
 				|| ft_strncmp(tmp[0], "SO", 3) == 0
 				|| ft_strncmp(tmp[0], "EA", 3) == 0

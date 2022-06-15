@@ -6,7 +6,7 @@
 /*   By: jumaison <jumaison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 20:14:11 by jumaison          #+#    #+#             */
-/*   Updated: 2022/06/15 03:39:29 by jumaison         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:33:25 by jumaison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	is_map_closed(t_vars *vars, t_utils *utils, t_errors *errors)
 	while (utils->i < vars->map_height)
 	{
 		utils->j = 0;
-		while (vars->map[utils->i][utils->j])
+		while (vars->map[utils->i][utils->j] != '\n'
+			&& vars->map[utils->i][utils->j] != '\0')
 		{
 			if (handle_space(vars, utils, errors) == -1)
 				return (0);
@@ -43,7 +44,9 @@ int	is_map_closed(t_vars *vars, t_utils *utils, t_errors *errors)
 		remove_white_space(vars->map[utils->i]);
 		if (walls_only(vars, utils) != 1)
 			return (0);
-		if (vars->map[utils->i][(int)ft_strlen(vars->map[utils->i]) - 1] != '1'
+		if (ft_strlen(vars->map[utils->i]) > 0
+			&& vars->map[utils->i]
+			[(int)ft_strlen(vars->map[utils->i]) - 1] != '1'
 			&& vars->map[utils->i][0] != '\0')
 			return (0);
 		if (line_size_difference(vars, utils, errors) == -1)

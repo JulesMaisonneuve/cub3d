@@ -135,8 +135,10 @@ int					is_rectangular(t_vars *vars, t_errors *errors);
 int					check_error(t_vars *vars, t_errors *errors, t_utils *utils,
 						int line_offset);
 int					print_error(t_errors *errors, t_vars *vars);
-int					handle_space(t_vars *vars, t_utils *utils, t_errors *errors);
-int					line_size_difference(t_vars *vars, t_utils *utils, t_errors *errors);
+int					handle_space(t_vars *vars, t_utils *utils,
+						t_errors *errors);
+int					line_size_difference(t_vars *vars, t_utils *utils,
+						t_errors *errors);
 int					free_map(t_vars *vars);
 void				free_textures(t_vars *vars);
 char				**read_line_infos(t_vars *vars, int fd, t_utils *utils);
@@ -167,7 +169,8 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 char				**ft_free_words(char **tab);
 char				**ft_split(char const *s, char *separators);
 int					weapon_to_window(t_vars *vars);
-bool				get_cubfile_infos(t_vars *vars, int fd, t_utils *utils, t_errors *errors);
+bool				get_cubfile_infos(t_vars *vars, int fd, t_utils *utils,
+						t_errors *errors);
 void				draw_pixel_img(t_vars *vars, int color, int x, int y);
 void				player_move_forward(t_vars *vars);
 void				player_move_backward(t_vars *vars);

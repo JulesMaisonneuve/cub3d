@@ -30,11 +30,28 @@ int	check_in_map(t_vars *vars, t_utils *utils)
 	return (0);
 }
 
+int	end_file_newline(t_vars *vars, int fd)
+{
+	int	ret;
+
+	ret = read(fd, &vars->c, 1);
+	if (ret == 0 && vars->in_map == 0)
+	{
+		vars->in_map = 2;
+		printf("Error: reached EOF\n");
+		return (1);
+	}
+	else if (ret == -1)
+		return (1);
+	if (vars->c == '\n')
+		return (1);
+	return (0);
+}
+
 char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 {
 	char	str[4096];
 	char	**tmp;
-	int		ret;
 
 	utils->is_info = false;
 	utils->i = 0;
@@ -42,16 +59,7 @@ char	**read_line_infos(t_vars *vars, int fd, t_utils *utils)
 	tmp = NULL;
 	while (1)
 	{
-		ret = read(fd, &vars->c, 1);
-		if (ret == 0 && vars->in_map == 0)
-		{
-			vars->in_map = 2;
-			printf("Error: reached EOF\n");
-			break ;
-		}
-		else if (ret == -1)
-			break ;
-		if (vars->c == '\n')
+		if (end_file_newline(vars, fd) == 1)
 			break ;
 		else if (vars->c == ' ' && utils->is_info != true)
 			continue ;
